@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FireRed &amp; LeafGreen — 100% Completion Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15120f;
+    --surface:#211c18;
+    --surface-2:#2b2520;
+    --line:#3a322b;
+    --text:#f3ece1;
+    --muted:#a79a89;
+    --fire:#e3492f;     /* FireRed */
+    --leaf:#52a35a;     /* LeafGreen */
+    --gold:#e8b44a;     /* 100% */
+    --radius:14px;
+    --shadow:0 1px 0 rgba(255,255,255,.03), 0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:
+      radial-gradient(1200px 600px at 15% -10%, #241d18 0%, transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, #1c1916 0%, transparent 55%),
+      var(--ink);
+    color:var(--text);
+    font:15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    min-height:100vh;
+  }
+  .wrap{max-width:1100px; margin:0 auto; padding:0 18px}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:30;
+    background:linear-gradient(180deg, rgba(21,18,15,.96), rgba(21,18,15,.82));
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .head-grid{display:flex; flex-wrap:wrap; gap:16px 24px; align-items:flex-end; padding:18px 0 14px}
+  .brand{display:flex; flex-direction:column; gap:4px; min-width:240px}
+  .wordmark{font-family:"Space Grotesk", system-ui; font-weight:700; font-size:clamp(20px,3vw,28px); letter-spacing:.01em; line-height:1}
+  .wordmark .fr{color:var(--fire)}
+  .wordmark .lg{color:var(--leaf)}
+  .wordmark .x{color:var(--muted); margin:0 .35em; font-weight:500}
+  .tagline{color:var(--muted); font-size:12.5px; letter-spacing:.14em; text-transform:uppercase}
+
+  .meter{flex:1 1 320px; min-width:280px}
+  .meter-top{display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:6px}
+  .pct{font-family:ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-weight:700; font-size:clamp(22px,3.4vw,30px);
+       background:linear-gradient(90deg, var(--leaf), var(--fire)); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .count{color:var(--muted); font-size:13px; font-family:ui-monospace, Menlo, Consolas, monospace}
+  .track{height:12px; border-radius:99px; background:var(--surface-2); border:1px solid var(--line); overflow:hidden}
+  .fill{height:100%; width:0%;
+        background:linear-gradient(90deg, var(--leaf) 0%, #8a9a3e 45%, var(--fire) 100%);
+        transition:width .45s cubic-bezier(.2,.7,.2,1)}
+  @media (prefers-reduced-motion:reduce){.fill{transition:none}}
+
+  /* ---------- controls ---------- */
+  .controls{display:flex; flex-wrap:wrap; gap:10px; padding:0 0 16px; align-items:center}
+  .search{flex:1 1 240px; min-width:180px; position:relative}
+  .search input{
+    width:100%; padding:10px 12px 10px 34px; border-radius:10px;
+    background:var(--surface); border:1px solid var(--line); color:var(--text); font:inherit;
+  }
+  .search input::placeholder{color:var(--muted)}
+  .search svg{position:absolute; left:11px; top:50%; transform:translateY(-50%); opacity:.6}
+  .btn{
+    padding:9px 13px; border-radius:10px; border:1px solid var(--line);
+    background:var(--surface); color:var(--text); font:inherit; cursor:pointer;
+    display:inline-flex; align-items:center; gap:7px; white-space:nowrap;
+  }
+  .btn:hover{border-color:#564a40; background:var(--surface-2)}
+  .btn:focus-visible, .search input:focus-visible, .cat-head:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+  .btn.toggle[aria-pressed="true"]{border-color:var(--leaf); color:#cfe8cf}
+  .btn.danger:hover{border-color:var(--fire); color:#f4b6aa}
+
+  /* ---------- categories ---------- */
+  main{padding:8px 0 80px}
+  .cat{margin:0 0 14px; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); box-shadow:var(--shadow); overflow:hidden}
+  .cat-head{
+    width:100%; display:flex; align-items:center; gap:12px; padding:14px 16px;
+    background:transparent; border:0; color:var(--text); font:inherit; cursor:pointer; text-align:left;
+  }
+  .cat-head:hover{background:var(--surface-2)}
+  .chev{transition:transform .2s ease; color:var(--muted); flex:0 0 auto}
+  .cat[data-collapsed="true"] .chev{transform:rotate(-90deg)}
+  .cat[data-collapsed="true"] .cat-body{display:none}
+  .cat-name{font-family:"Space Grotesk", system-ui; font-weight:600; font-size:16px}
+  .cat-meta{margin-left:auto; display:flex; align-items:center; gap:12px}
+  .cat-count{font-family:ui-monospace, Menlo, Consolas, monospace; font-size:12.5px; color:var(--muted)}
+  .cat-bar{width:120px; height:7px; border-radius:99px; background:var(--surface-2); overflow:hidden; border:1px solid var(--line)}
+  .cat-bar > i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--leaf),var(--fire))}
+  .cat[data-done="true"] .cat-bar > i{background:var(--gold)}
+  .cat[data-done="true"] .cat-name::after{content:" ✓"; color:var(--gold)}
+
+  .cat-body{padding:6px 14px 16px; border-top:1px solid var(--line)}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:8px}
+  .empty{color:var(--muted); padding:14px 4px; font-size:14px}
+  .empty b{color:var(--text); font-weight:600}
+
+  /* ---------- item card ---------- */
+  .item{
+    display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px;
+    border:1px solid var(--line); background:var(--surface-2); cursor:pointer; user-select:none;
+    transition:border-color .15s, opacity .15s, transform .05s;
+  }
+  .item:hover{border-color:#5a4d42}
+  .item:active{transform:translateY(1px)}
+  .item:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+  .item .sprite{width:40px; height:40px; flex:0 0 auto; image-rendering:auto; object-fit:contain; filter:saturate(1.05)}
+  .item .sprite.placeholder{display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:11px; background:var(--surface); border-radius:8px}
+  .item .txt{min-width:0; flex:1}
+  .item .nm{font-weight:600; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .item .id{font-family:ui-monospace, Menlo, Consolas, monospace; font-size:11px; color:var(--muted)}
+  .item .loc{font-size:11.5px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .item .mark{
+    flex:0 0 auto; width:22px; height:22px; border-radius:7px; border:1.5px solid var(--line);
+    display:flex; align-items:center; justify-content:center; color:transparent;
+  }
+  .item[aria-checked="true"]{opacity:.5; border-color:var(--leaf)}
+  .item[aria-checked="true"] .mark{background:var(--leaf); border-color:var(--leaf); color:#0e1a0f}
+  .item[aria-checked="true"] .nm{text-decoration:line-through; text-decoration-color:rgba(243,236,225,.4)}
+
+  /* ---------- loader / file gate ---------- */
+  .gate{max-width:560px; margin:64px auto; padding:28px; border:1px dashed var(--line); border-radius:var(--radius); background:var(--surface); text-align:center}
+  .gate h2{font-family:"Space Grotesk"; margin:0 0 8px}
+  .gate p{color:var(--muted); margin:0 0 18px}
+  .gate label{cursor:pointer}
+  .hidden{display:none !important}
+  footer{color:var(--muted); font-size:12px; padding:24px 0 40px; border-top:1px solid var(--line)}
+  footer a{color:var(--leaf)}
+
+  /* ---------- interactive map ---------- */
+  .map{margin:8px 0 16px; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); box-shadow:var(--shadow); overflow:hidden}
+  .map-head{width:100%; display:flex; align-items:center; gap:10px; padding:13px 16px; background:transparent; border:0; color:var(--text); font:inherit; cursor:pointer; text-align:left}
+  .map-head:hover{background:var(--surface-2)}
+  .map-head .ttl{font-family:"Space Grotesk", system-ui; font-weight:600; font-size:16px}
+  .map-head .hint{margin-left:auto; color:var(--muted); font-size:12px}
+  .map[data-collapsed="true"] .map-body{display:none}
+  .map[data-collapsed="true"] .chev{transform:rotate(-90deg)}
+  .map-body{border-top:1px solid var(--line)}
+
+  .map-layout{display:flex; min-height:420px}
+  .viewport{position:relative; flex:1; overflow:hidden; background:#0d0b0a; cursor:grab; touch-action:none}
+  .viewport.grabbing{cursor:grabbing}
+  .canvas{position:absolute; left:0; top:0; transform-origin:0 0; will-change:transform}
+  .canvas img{display:block; max-width:none; image-rendering:pixelated; user-select:none; -webkit-user-drag:none}
+  .pin{position:absolute; transform:translate(-50%,-50%); display:flex; align-items:center; gap:3px;
+       padding:2px 6px; border-radius:99px; background:rgba(20,17,15,.85); border:1.5px solid var(--leaf);
+       color:var(--text); font:600 11px/1 ui-monospace,Menlo,monospace; white-space:nowrap; cursor:pointer; backdrop-filter:blur(2px)}
+  .pin:hover{border-color:var(--fire); z-index:5}
+  .pin .dot{width:8px; height:8px; border-radius:50%; background:var(--leaf)}
+  .pin.done{opacity:.45; border-color:var(--line)}
+  .pin.done .dot{background:var(--muted)}
+
+  .zoomctl{position:absolute; left:10px; top:10px; display:flex; flex-direction:column; gap:6px; z-index:6}
+  .zoomctl button{width:34px; height:34px; border-radius:8px; border:1px solid var(--line); background:rgba(20,17,15,.9); color:var(--text); font-size:18px; cursor:pointer; line-height:1}
+  .zoomctl button:hover{border-color:var(--fire)}
+
+  .settings{width:210px; flex:0 0 210px; border-left:1px solid var(--line); padding:12px; overflow:auto; max-height:520px; background:var(--surface)}
+  .settings h4{margin:0 0 8px; font-family:"Space Grotesk"; font-size:13px}
+  .settings .ab{display:flex; gap:6px; margin-bottom:8px}
+  .settings .ab button{flex:1; padding:5px; border-radius:7px; border:1px solid var(--line); background:var(--surface-2); color:var(--text); font:inherit; font-size:12px; cursor:pointer}
+  .settings .ab button:hover{border-color:var(--fire)}
+  .settings label{display:flex; align-items:center; gap:8px; padding:5px 4px; font-size:13px; cursor:pointer; border-radius:6px}
+  .settings label:hover{background:var(--surface-2)}
+  .settings label .sw{width:11px; height:11px; border-radius:3px; flex:0 0 auto}
+  .settings input[type=checkbox]{accent-color:var(--leaf)}
+
+  .map-src{display:flex; flex-wrap:wrap; gap:8px; align-items:center; padding:10px 14px; border-top:1px solid var(--line); font-size:12.5px; color:var(--muted)}
+  .map-src input[type=text]{flex:1; min-width:160px; padding:7px 9px; border-radius:8px; background:var(--surface-2); border:1px solid var(--line); color:var(--text); font:inherit}
+  .map-src .lbl{cursor:pointer; padding:6px 10px; border-radius:8px; border:1px solid var(--line); background:var(--surface-2); color:var(--text)}
+  .map-empty{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:24px; color:var(--muted); font-size:13px}
+  @media (max-width:680px){ .map-layout{flex-direction:column} .settings{width:auto; flex:auto; border-left:0; border-top:1px solid var(--line); max-height:240px} .viewport{min-height:320px} }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="head-grid">
+      <div class="brand">
+        <div class="wordmark"><span class="fr">FireRed</span><span class="x">&amp;</span><span class="lg">LeafGreen</span></div>
+        <div class="tagline">100% Completion Tracker</div>
+      </div>
+      <div class="meter">
+        <div class="meter-top">
+          <span class="pct" id="pct">0%</span>
+          <span class="count" id="count">0 / 0 obtained</span>
+        </div>
+        <div class="track"><div class="fill" id="fill"></div></div>
+      </div>
+    </div>
+    <div class="controls" id="controls" hidden>
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="search" type="search" placeholder="Cerca per nome o numero…" autocomplete="off">
+      </div>
+      <button class="btn toggle" id="hideDone" aria-pressed="false">Nascondi completati</button>
+      <button class="btn" id="expand">Espandi tutto</button>
+      <button class="btn" id="export">Esporta backup</button>
+      <button class="btn" id="importBtn">Importa backup</button>
+      <input id="importFile" type="file" accept="application/json" class="hidden">
+      <button class="btn danger" id="reset">Azzera</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="gate" id="gate">
+    <h2>Carica i dati di gioco</h2>
+    <p id="gateMsg">Sto cercando <code>FireRed.json</code> nella stessa cartella…</p>
+    <label class="btn"><input id="fileInput" type="file" accept="application/json" class="hidden"> Scegli FireRed.json</label>
+  </div>
+
+  <section class="map" id="mapPanel" data-collapsed="false" hidden>
+    <button class="map-head" id="mapHead" type="button" aria-expanded="true">
+      <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted);transition:transform .2s"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="ttl">Interactive Map</span>
+      <span class="hint">trascina per spostarti · rotella per zoom · clicca un pin</span>
+    </button>
+    <div class="map-body">
+      <div class="map-layout">
+        <div class="viewport" id="viewport">
+          <div class="zoomctl">
+            <button id="zoomIn" title="Zoom +">+</button>
+            <button id="zoomOut" title="Zoom −">−</button>
+            <button id="zoomReset" title="Reimposta" style="font-size:13px">⤢</button>
+          </div>
+          <div class="canvas" id="canvas">
+            <img id="mapImg" alt="Mappa di Kanto" />
+          </div>
+          <div class="map-empty" id="mapEmpty">
+            Nessuna mappa caricata.<br>Scarica una mappa di Kanto (Bulbapedia / The Spriters Resource),
+            mettila accanto a <code>index.html</code> come <code>kanto.png</code>,
+            oppure caricala qui sotto.
+          </div>
+        </div>
+        <aside class="settings" id="settings">
+          <h4>Display Settings</h4>
+          <div class="ab"><button id="catAll">All</button><button id="catNone">None</button></div>
+          <div id="catToggles"></div>
+        </aside>
+      </div>
+      <div class="map-src">
+        <span>Mappa:</span>
+        <input type="text" id="mapUrl" placeholder="URL immagine mappa (o lascia kanto.png)" />
+        <button class="lbl" id="mapUrlBtn">Carica URL</button>
+        <label class="lbl">File… <input type="file" id="mapFile" accept="image/*" class="hidden"></label>
+      </div>
+    </div>
+  </section>
+
+  <div id="cats"></div>
+</main>
+
+<footer class="wrap">
+  Dati: <span id="gameName">—</span> · Versioni: <span id="versions">—</span> ·
+  I progressi sono salvati solo in questo browser (localStorage). Usa <b>Esporta backup</b> per non perderli.
+</footer>
+
+<script>
+"use strict";
+const STORE_KEY = "frlg-completion-v1";
+const SPRITE = id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+
+let DATA = null;
+let state = load();                 // { done:{ "cat:uid":1 }, hideDone:false, collapsed:{catId:true} }
+
+function load(){
+  try { return Object.assign({done:{},hideDone:false,collapsed:{}}, JSON.parse(localStorage.getItem(STORE_KEY)||"{}")); }
+  catch { return {done:{},hideDone:false,collapsed:{}}; }
+}
+function save(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch {} }
+
+/* ---------- data loading: fetch, else file picker ---------- */
+async function boot(){
+  try{
+    const res = await fetch("./FireRed.json", {cache:"no-store"});
+    if(!res.ok) throw new Error(res.status);
+    init(await res.json());
+  }catch(e){
+    document.getElementById("gateMsg").innerHTML =
+      "Non riesco a leggere <code>FireRed.json</code> automaticamente "+
+      "(succede aprendo il file in locale con <code>file://</code>). "+
+      "Selezionalo qui sotto, oppure pubblica la pagina su un host.";
+  }
+}
+document.getElementById("fileInput").addEventListener("change", ev=>{
+  const f = ev.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = () => { try{ init(JSON.parse(r.result)); }catch{ document.getElementById("gateMsg").textContent="File non valido."; } };
+  r.readAsText(f);
+});
+
+/* ---------- render ---------- */
+function init(data){
+  DATA = data;
+  document.getElementById("gate").classList.add("hidden");
+  document.getElementById("controls").hidden = false;
+  document.getElementById("gameName").textContent = data.name || "—";
+  document.getElementById("versions").textContent = (data.pkCompletionist?.versionsLongName||[]).join(" / ") || "—";
+  document.getElementById("hideDone").setAttribute("aria-pressed", String(!!state.hideDone));
+  initMap();
+  renderAll();
+}
+
+function renderAll(){
+  const root = document.getElementById("cats");
+  root.innerHTML = "";
+  (DATA.categories||[]).forEach(cat=>{
+    const list = cat.list || [];
+    const collapsedDefault = list.length === 0;
+    const collapsed = (cat.id in state.collapsed) ? state.collapsed[cat.id] : collapsedDefault;
+
+    const el = document.createElement("section");
+    el.className = "cat"; el.dataset.cat = cat.id || cat.name; el.dataset.collapsed = String(collapsed);
+
+    const head = document.createElement("button");
+    head.className = "cat-head"; head.type = "button"; head.setAttribute("aria-expanded", String(!collapsed));
+    head.innerHTML = `
+      <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="cat-name">${esc(cat.name)}</span>
+      <span class="cat-meta">
+        <span class="cat-bar"><i></i></span>
+        <span class="cat-count"></span>
+      </span>`;
+    head.addEventListener("click", ()=>{
+      const now = el.dataset.collapsed === "true" ? false : true;
+      el.dataset.collapsed = String(now);
+      head.setAttribute("aria-expanded", String(!now));
+      state.collapsed[cat.id] = now; save();
+    });
+
+    const body = document.createElement("div");
+    body.className = "cat-body";
+
+    if(list.length === 0){
+      body.innerHTML = `<div class="empty"><b>Ancora nessuna voce.</b> Aggiungi gli elementi di questa categoria in <code>FireRed.json</code> per vederli qui.</div>`;
+    }else{
+      const grid = document.createElement("div");
+      grid.className = "grid";
+      list.forEach(entry => grid.appendChild(makeItem(cat, entry)));
+      body.appendChild(grid);
+    }
+
+    el.appendChild(head); el.appendChild(body);
+    root.appendChild(el);
+    updateCat(el);
+  });
+  updateTotals();
+  applyFilter();
+}
+
+function makeItem(cat, entry){
+  const key = cat.id + ":" + entry.uid;
+  const done = !!state.done[key];
+  const it = document.createElement("div");
+  it.className = "item"; it.tabIndex = 0; it.setAttribute("role","checkbox");
+  it.setAttribute("aria-checked", String(done));
+  it.dataset.key = key;
+  it.dataset.search = ((entry.name||"") + " " + (entry.id||"") + " " + (entry.location||"")).toLowerCase();
+
+  const isPokemon = (cat.id === "pokemon" || cat.id === "pokemonForm");
+  let spriteHTML;
+  if(isPokemon && /^\d+$/.test(String(entry.id))){
+    spriteHTML = `<img class="sprite" loading="lazy" alt="" src="${SPRITE(entry.id)}" onerror="this.style.visibility='hidden'">`;
+  } else if(typeof entry.iconUrl === "string" && /^https?:\/\//.test(entry.iconUrl)){
+    spriteHTML = `<img class="sprite" loading="lazy" alt="" src="${esc(entry.iconUrl)}" onerror="this.style.visibility='hidden'">`;
+  } else {
+    spriteHTML = `<span class="sprite placeholder">${cat.showId && entry.id ? "#"+esc(entry.id) : "•"}</span>`;
+  }
+
+  const idLine = (cat.showId && entry.id) ? `<span class="id">#${esc(String(entry.id).padStart(3,"0"))}</span>` : "";
+  const loc = entry.location ? `<div class="loc" title="${esc(entry.location)}">${esc(entry.location)}</div>` : "";
+
+  it.innerHTML = `
+    ${spriteHTML}
+    <div class="txt">
+      <div class="nm">${esc(entry.name)} ${idLine}</div>
+      ${loc}
+    </div>
+    <span class="mark" aria-hidden="true">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>
+    </span>`;
+
+  const toggle = ()=>{
+    const nowDone = it.getAttribute("aria-checked") !== "true";
+    it.setAttribute("aria-checked", String(nowDone));
+    if(nowDone) state.done[key] = 1; else delete state.done[key];
+    save();
+    updateCat(it.closest(".cat")); updateTotals(); applyFilter();
+    if(typeof renderMarkers==="function" && mapReady) renderMarkers();
+  };
+  it.addEventListener("click", toggle);
+  it.addEventListener("keydown", e=>{ if(e.key===" "||e.key==="Enter"){ e.preventDefault(); toggle(); }});
+  return it;
+}
+
+/* ---------- progress maths ---------- */
+function catStats(catEl){
+  const items = catEl.querySelectorAll(".item");
+  let done=0; items.forEach(i=>{ if(i.getAttribute("aria-checked")==="true") done++; });
+  return {done, total:items.length};
+}
+function updateCat(catEl){
+  const {done,total} = catStats(catEl);
+  catEl.querySelector(".cat-count").textContent = `${done} / ${total}`;
+  const pct = total ? (done/total*100) : 0;
+  catEl.querySelector(".cat-bar > i").style.width = pct + "%";
+  catEl.dataset.done = String(total>0 && done===total);
+}
+function updateTotals(){
+  let done=0, total=0;
+  document.querySelectorAll(".cat").forEach(c=>{ const s=catStats(c); done+=s.done; total+=s.total; });
+  const pct = total ? (done/total*100) : 0;
+  document.getElementById("pct").textContent = pct.toFixed(1).replace(/\.0$/,"") + "%";
+  document.getElementById("count").textContent = `${done} / ${total} obtained`;
+  document.getElementById("fill").style.width = pct + "%";
+}
+
+/* ---------- filter ---------- */
+function applyFilter(){
+  const q = document.getElementById("search").value.trim().toLowerCase();
+  const hideDone = !!state.hideDone;
+  document.querySelectorAll(".cat").forEach(cat=>{
+    let visible=0;
+    cat.querySelectorAll(".item").forEach(it=>{
+      const matchQ = !q || it.dataset.search.includes(q);
+      const matchDone = !hideDone || it.getAttribute("aria-checked")!=="true";
+      const show = matchQ && matchDone;
+      it.style.display = show ? "" : "none";
+      if(show) visible++;
+    });
+    // when actively searching, auto-open categories that have hits
+    if(q && visible>0 && cat.dataset.collapsed==="true"){ cat.dataset.collapsed="false"; }
+  });
+}
+
+/* ---------- controls ---------- */
+document.getElementById("search").addEventListener("input", applyFilter);
+document.getElementById("hideDone").addEventListener("click", e=>{
+  state.hideDone = !state.hideDone; save();
+  e.currentTarget.setAttribute("aria-pressed", String(state.hideDone));
+  applyFilter();
+});
+document.getElementById("expand").addEventListener("click", e=>{
+  const collapseAll = e.currentTarget.dataset.mode === "collapse";
+  document.querySelectorAll(".cat").forEach(c=>{
+    c.dataset.collapsed = String(collapseAll);
+    if(DATA) state.collapsed[c.dataset.cat] = collapseAll;
+    const h=c.querySelector(".cat-head"); if(h) h.setAttribute("aria-expanded", String(!collapseAll));
+  });
+  save();
+  e.currentTarget.dataset.mode = collapseAll ? "expand" : "collapse";
+  e.currentTarget.textContent = collapseAll ? "Espandi tutto" : "Comprimi tutto";
+});
+document.getElementById("export").addEventListener("click", ()=>{
+  const blob = new Blob([JSON.stringify(state,null,1)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "frlg-progress-backup.json";
+  a.click(); URL.revokeObjectURL(a.href);
+});
+document.getElementById("importBtn").addEventListener("click", ()=>document.getElementById("importFile").click());
+document.getElementById("importFile").addEventListener("change", ev=>{
+  const f=ev.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{ try{
+    const obj=JSON.parse(r.result);
+    state=Object.assign({done:{},hideDone:false,collapsed:{}}, obj); save();
+    document.getElementById("hideDone").setAttribute("aria-pressed", String(!!state.hideDone));
+    renderAll();
+  }catch{ alert("Backup non valido."); } };
+  r.readAsText(f);
+});
+document.getElementById("reset").addEventListener("click", ()=>{
+  if(confirm("Azzerare tutti i progressi salvati in questo browser?")){
+    state={done:{},hideDone:false,collapsed:{}}; save();
+    document.getElementById("hideDone").setAttribute("aria-pressed","false");
+    renderAll();
+  }
+});
+
+function esc(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+/* ---------- interactive map: pan/zoom viewer + location markers ---------- */
+// Normalised coordinates (0..1) of Kanto/Sevii locations on a standard
+// full-Kanto overworld map. Markers are placed by % so they line up
+// approximately on any standard Kanto map image, at any resolution.
+const LOC = {
+  // calibrated to the VGMaps stitched Kanto map (6528×6400)
+  "Altopiano Blu":[0.045,0.055],"Pewter":[0.17,0.16],"Viridian":[0.17,0.49],
+  "Pallet":[0.145,0.665],"Cinnabar":[0.18,0.96],"Cerulean":[0.68,0.13],
+  "Celadon":[0.49,0.35],"Saffron":[0.78,0.35],"Lavender":[0.915,0.36],
+  "Vermilion":[0.545,0.80],"Fuchsia":[0.70,0.52],
+  "Percorso 3":[0.30,0.17],"Percorso 4":[0.52,0.15],"Percorso 6":[0.70,0.60],
+  "Percorso 8":[0.86,0.355],"Percorso 9":[0.82,0.12],"Percorso 10":[0.92,0.26],
+  "Percorso 11":[0.66,0.78],"Percorso 12":[0.95,0.52],"Percorso 13":[0.92,0.62],
+  "Percorso 14":[0.88,0.66],"Percorso 15":[0.80,0.66],"Percorso 16":[0.34,0.43],
+  "Percorso 17":[0.34,0.60],"Percorso 18":[0.42,0.73],"Percorso 19":[0.70,0.62],
+  "Percorso 20":[0.40,0.82],"Percorso 21":[0.16,0.82],"Percorso 24":[0.68,0.06],
+  "Percorso 25":[0.74,0.04],
+  // landmarks
+  "Mt. Moon":[0.40,0.18],"Power Plant":[0.90,0.22],"Seafoam":[0.34,0.95],
+  "Safari":[0.82,0.55],
+  // off the Kanto map: Sevii Islands + event islands, clustered in the empty area
+  "One Island":[0.44,0.47],"Two Island":[0.44,0.51],"Three Island":[0.44,0.55],
+  "Four Island":[0.44,0.59],"Five Island":[0.44,0.63],"Six Island":[0.44,0.67],
+  "Seven Island":[0.44,0.71],"Navel Rock":[0.54,0.71],"Birth Island":[0.54,0.75]
+};
+// match an entry's location text to a LOC key
+function locKeyFor(text){
+  if(!text) return null;
+  const L = text;
+  // Sevii first (parenthetical island name)
+  for(const k of ["One Island","Two Island","Three Island","Four Island","Five Island","Six Island","Seven Island"])
+    if(L.includes(k)) return k;
+  // landmarks
+  for(const k of ["Seafoam","Power Plant","Navel Rock","Birth Island","Mt. Moon","Safari"])
+    if(L.includes(k)) return k;
+  // routes
+  const m = L.match(/Percorso (\d+)/);
+  if(m && LOC["Percorso "+m[1]]) return "Percorso "+m[1];
+  // cities
+  for(const k of ["Altopiano Blu","Pewter","Cerulean","Saffron","Celadon","Lavender","Vermilion","Fuchsia","Viridian","Pallet","Cinnabar"])
+    if(L.includes(k)) return k;
+  return null;
+}
+
+const catColors = {pokemon:"#3fb0c9",pokemonForm:"#3fb0c9",item:"#e0883a",itemInMap:"#e0883a",
+  itemGift:"#e0883a",berry:"#cf6",inGameTrade:"#52a35a",inGameGiftPokemon:"#52a35a",
+  battle:"#e3492f",vsSeeker:"#e3492f",ribbon:"#c79be8",misc:"#9a8f82"};
+let catOn = {}; // category id -> bool
+
+let zoom=1, panX=0, panY=0, mapReady=false;
+function applyTransform(){ document.getElementById("canvas").style.transform=`translate(${panX}px,${panY}px) scale(${zoom})`; }
+
+function buildToggles(){
+  const box=document.getElementById("catToggles"); box.innerHTML="";
+  (DATA.categories||[]).forEach(cat=>{
+    const id=cat.id;
+    if(!(id in catOn)) catOn[id]=true;
+    const lab=document.createElement("label");
+    const color=catColors[id]||"var(--leaf)";
+    lab.innerHTML=`<input type="checkbox" ${catOn[id]?"checked":""}><span class="sw" style="background:${color}"></span>${esc(cat.name)}`;
+    lab.querySelector("input").addEventListener("change",e=>{ catOn[id]=e.target.checked; renderMarkers(); });
+    box.appendChild(lab);
+  });
+}
+function renderMarkers(){
+  const canvas=document.getElementById("canvas");
+  canvas.querySelectorAll(".pin").forEach(p=>p.remove());
+  if(!mapReady) return;
+  // aggregate counts per location+category
+  const agg={}; // locKey -> {cat -> {total, done}}
+  (DATA.categories||[]).forEach(cat=>{
+    if(!catOn[cat.id]) return;
+    (cat.list||[]).forEach(e=>{
+      const k=locKeyFor(e.location); if(!k) return;
+      const done = !!state.done[cat.id+":"+e.uid];
+      agg[k]=agg[k]||{}; agg[k][cat.id]=agg[k][cat.id]||{t:0,d:0};
+      agg[k][cat.id].t++; if(done) agg[k][cat.id].d++;
+    });
+  });
+  Object.keys(agg).forEach(k=>{
+    const [nx,ny]=LOC[k];
+    let total=0, done=0, color="var(--leaf)";
+    Object.keys(agg[k]).forEach(cid=>{ total+=agg[k][cid].t; done+=agg[k][cid].d; color=catColors[cid]||color; });
+    const pin=document.createElement("div");
+    pin.className="pin"+(total>0&&done===total?" done":"");
+    pin.style.left=(nx*100)+"%"; pin.style.top=(ny*100)+"%";
+    pin.innerHTML=`<span class="dot" style="background:${color}"></span>${k} ×${total}`;
+    pin.title=`${k}: ${done}/${total} completati`;
+    pin.addEventListener("click",ev=>{ ev.stopPropagation();
+      document.getElementById("search").value=k; applyFilter();
+      document.getElementById("cats").scrollIntoView({behavior:"smooth",block:"start"});
+    });
+    canvas.appendChild(pin);
+  });
+}
+
+function loadMapImage(src){
+  const img=document.getElementById("mapImg"), empty=document.getElementById("mapEmpty");
+  img.onload=()=>{ mapReady=true; empty.style.display="none"; resetView(); renderMarkers(); };
+  img.onerror=()=>{ mapReady=false; empty.style.display="flex"; renderMarkers(); };
+  img.src=src;
+}
+function resetView(){
+  const vp=document.getElementById("viewport"), img=document.getElementById("mapImg");
+  if(!img.naturalWidth) return;
+  zoom = Math.min(vp.clientWidth/img.naturalWidth, vp.clientHeight/img.naturalHeight) || 1;
+  panX = (vp.clientWidth - img.naturalWidth*zoom)/2;
+  panY = (vp.clientHeight - img.naturalHeight*zoom)/2;
+  applyTransform();
+}
+
+function initMap(){
+  document.getElementById("mapPanel").hidden=false;
+  buildToggles();
+
+  // collapse toggle
+  const head=document.getElementById("mapHead"), panel=document.getElementById("mapPanel");
+  head.addEventListener("click",()=>{ const c=panel.dataset.collapsed!=="true";
+    panel.dataset.collapsed=String(c); head.setAttribute("aria-expanded",String(!c)); });
+
+  // All / None
+  document.getElementById("catAll").addEventListener("click",()=>{ Object.keys(catOn).forEach(k=>catOn[k]=true); buildToggles(); renderMarkers(); });
+  document.getElementById("catNone").addEventListener("click",()=>{ Object.keys(catOn).forEach(k=>catOn[k]=false); buildToggles(); renderMarkers(); });
+
+  // zoom buttons
+  const zAt=(f)=>{ const vp=document.getElementById("viewport"); const cx=vp.clientWidth/2, cy=vp.clientHeight/2;
+    const nz=Math.max(0.05,Math.min(8,zoom*f)); panX=cx-(cx-panX)*(nz/zoom); panY=cy-(cy-panY)*(nz/zoom); zoom=nz; applyTransform(); };
+  document.getElementById("zoomIn").addEventListener("click",()=>zAt(1.25));
+  document.getElementById("zoomOut").addEventListener("click",()=>zAt(0.8));
+  document.getElementById("zoomReset").addEventListener("click",resetView);
+
+  // wheel zoom (centred on cursor)
+  const vp=document.getElementById("viewport");
+  vp.addEventListener("wheel",e=>{ e.preventDefault(); const r=vp.getBoundingClientRect();
+    const mx=e.clientX-r.left, my=e.clientY-r.top; const f=e.deltaY<0?1.12:0.89;
+    const nz=Math.max(0.05,Math.min(8,zoom*f)); panX=mx-(mx-panX)*(nz/zoom); panY=my-(my-panY)*(nz/zoom); zoom=nz; applyTransform(); },{passive:false});
+
+  // drag to pan
+  let drag=false,sx=0,sy=0,ox=0,oy=0;
+  vp.addEventListener("pointerdown",e=>{ drag=true; vp.classList.add("grabbing"); sx=e.clientX; sy=e.clientY; ox=panX; oy=panY; vp.setPointerCapture(e.pointerId); });
+  vp.addEventListener("pointermove",e=>{ if(!drag)return; panX=ox+(e.clientX-sx); panY=oy+(e.clientY-sy); applyTransform(); });
+  vp.addEventListener("pointerup",e=>{ drag=false; vp.classList.remove("grabbing"); });
+  vp.addEventListener("pointercancel",()=>{ drag=false; vp.classList.remove("grabbing"); });
+
+  // image source controls
+  document.getElementById("mapUrlBtn").addEventListener("click",()=>{ const u=document.getElementById("mapUrl").value.trim(); if(u) loadMapImage(u); });
+  document.getElementById("mapFile").addEventListener("change",ev=>{ const f=ev.target.files[0]; if(f) loadMapImage(URL.createObjectURL(f)); });
+
+  // try the sibling kanto.png by default
+  loadMapImage("./kanto.png");
+}
+
+boot();
+</script>
+</body>
+</html>
