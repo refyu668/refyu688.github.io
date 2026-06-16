@@ -162,6 +162,14 @@
   .pin:hover{z-index:30}
   .pin:hover .ic{outline:2px solid var(--fire); outline-offset:1px}
   .pin.cluster{flex-wrap:wrap; gap:1px; max-width:130px; padding:2px; border-radius:6px; background:rgba(20,17,15,.5)}
+  .maptip{position:absolute; z-index:40; pointer-events:none; max-width:240px;
+       background:rgba(18,15,13,.97); border:1px solid var(--line); border-radius:9px; padding:7px 11px;
+       box-shadow:0 8px 24px rgba(0,0,0,.55); color:var(--text); font:13px/1.35 system-ui}
+  .maptip b{color:#fff}
+  .maptip .mt-loc{color:var(--muted); font-size:12px; margin-top:2px}
+  .maptip .mt-st{font-size:11.5px; margin-top:4px; font-weight:600}
+  .maptip .mt-ok{color:var(--leaf)}
+  .maptip .mt-hint{color:var(--muted)}
 
   .zoomctl{position:absolute; left:10px; top:10px; display:flex; flex-direction:column; gap:6px; z-index:6}
   .zoomctl button{width:34px; height:34px; border-radius:8px; border:1px solid var(--line); background:rgba(20,17,15,.9); color:var(--text); font-size:18px; cursor:pointer; line-height:1}
@@ -260,6 +268,7 @@
             <button id="pickBtn" title="Prendi coordinate (clicca un punto)" style="font-size:15px">📍</button>
           </div>
           <div class="coordbox" id="coordbox" hidden></div>
+          <div class="maptip" id="mapTip" hidden></div>
           <div class="pickmark" id="pickMarker" hidden></div>
           <div class="canvas" id="canvas">
             <img id="mapImg" alt="Mappa di Kanto" />
@@ -645,8 +654,24 @@ function renderInteriors(){
   });
 }
 function validPos(p){ return Array.isArray(p)&&p.length===2&&typeof p[0]==="number"&&typeof p[1]==="number"&&p[0]>=0&&p[0]<=1&&p[1]>=0&&p[1]<=1; }
+// floating tooltip (fixed size, follows the hovered marker)
+function mapTipShowRect(pr, html){
+  const tip=document.getElementById("mapTip");
+  const vp=document.getElementById("viewport").getBoundingClientRect();
+  tip.innerHTML=html; tip.hidden=false;
+  const cx=pr.left-vp.left+pr.width/2;
+  const th=tip.offsetHeight, tw=tip.offsetWidth;
+  const left=Math.max(tw/2+4, Math.min(vp.width-tw/2-4, cx));
+  const above=(pr.top-vp.top)-th-10>=0;
+  tip.style.left=left+"px";
+  tip.style.top=(above?(pr.top-vp.top-th-8):(pr.bottom-vp.top+8))+"px";
+  tip.style.transform="translateX(-50%)";
+}
+function mapTipShow(pin, html){ mapTipShowRect(pin.getBoundingClientRect(), html); }
+function mapTipHide(){ const t=document.getElementById("mapTip"); if(t) t.hidden=true; }
+
 function renderMarkers(){
-  const layer=document.getElementById("markers"); layer.innerHTML="";
+  const layer=document.getElementById("markers"); layer.innerHTML=""; mapTipHide();
   if(!mapReady) return;
   // group visible entries per location; entries with explicit pos become their own marker
   const agg={}; const singles=[];
@@ -656,7 +681,7 @@ function renderMarkers(){
       const done=!!state.done[cat.id+":"+e.uid];
       if(validPos(e.pos)){
         singles.push({nx:e.pos[0], ny:e.pos[1], src:entrySprite(cat.id,e),
-                      color:catColors[cat.id]||"var(--leaf)", done, name:e.name||"", key:cat.id+":"+e.uid});
+                      color:catColors[cat.id]||"var(--leaf)", done, name:e.name||"", loc:e.location||"", key:cat.id+":"+e.uid});
         return;
       }
       const k=locKeyFor(e.location); if(!k || !LOC[k]) return;
@@ -679,8 +704,10 @@ function renderMarkers(){
     });
     if(g.total>shown.length) html+=`<span class="more">+${g.total-shown.length}</span>`;
     pin.innerHTML=html;
-    pin.title=`${k}: ${g.done}/${g.total} completati`;
-    pin.addEventListener("click",ev=>{ ev.stopPropagation();
+    const ctip=`<b>${esc(k)}</b><div class="mt-loc">${g.done}/${g.total} ottenuti in questa zona</div><div class="mt-st mt-hint">clicca per filtrare l'elenco</div>`;
+    pin.addEventListener("mouseenter",()=>mapTipShow(pin,ctip));
+    pin.addEventListener("mouseleave",mapTipHide);
+    pin.addEventListener("click",ev=>{ ev.stopPropagation(); mapTipHide();
       document.getElementById("search").value=k; applyFilter();
       document.getElementById("cats").scrollIntoView({behavior:"smooth",block:"start"});
     });
@@ -692,11 +719,16 @@ function renderMarkers(){
     pin.style.left=(s.nx*imgW)+"px"; pin.style.top=(s.ny*imgH)+"px";
     if(s.src) pin.innerHTML=`<img class="ic" loading="lazy" alt="" src="${s.src}" style="${s.done?'filter:grayscale(1)':''}" onerror="this.classList.add('ph');this.removeAttribute('src');this.style.background='${s.color}'">`;
     else pin.innerHTML=`<span class="ic ph" style="background:${s.color}"></span>`;
-    pin.title=(s.done?"✓ ":"")+s.name+" — tocca per segnare ottenuto";
+    const stip=()=>`<b>${esc(s.name)}</b>`+(s.loc?`<div class="mt-loc">${esc(s.loc)}</div>`:"")
+      +`<div class="mt-st ${state.done[s.key]?'mt-ok':'mt-hint'}">${state.done[s.key]?"✓ ottenuto — clicca per annullare":"clicca per segnare ottenuto"}</div>`;
+    pin.addEventListener("mouseenter",()=>mapTipShow(pin,stip()));
+    pin.addEventListener("mouseleave",mapTipHide);
     pin.addEventListener("click",ev=>{ ev.stopPropagation();
+      const pr=pin.getBoundingClientRect();   // capture position before the markers rebuild
       const el=document.querySelector('.item[data-key="'+(window.CSS&&CSS.escape?CSS.escape(s.key):s.key)+'"]');
       if(el){ el.click(); }
       else { state.done[s.key]?delete state.done[s.key]:(state.done[s.key]=1); save(); renderMarkers(); }
+      mapTipShowRect(pr, stip());   // refresh tooltip in place to reflect the new state
     });
     layer.appendChild(pin);
   });
