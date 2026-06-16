@@ -158,7 +158,9 @@
   .pin .ic{width:20px; height:20px; object-fit:contain; image-rendering:pixelated; display:block}
   .pin .ic.ph{width:14px; height:14px; border-radius:50%; border:1.5px solid #1c1916}
   .pin .more{font:600 10px/1 ui-monospace,Menlo,monospace; color:var(--text); padding:0 3px}
-  .pin.done{opacity:.4}
+  .pin.done{opacity:.32}
+  .pin.single{cursor:pointer}
+  .pin.single.done .ic{filter:grayscale(1) opacity(.85)}
   .pin .tag{position:absolute; top:-8px; left:50%; transform:translateX(-50%);
        font:700 9px/1 ui-monospace,Menlo,monospace; color:#0e1a0f; background:var(--leaf);
        padding:2px 5px; border-radius:99px; white-space:nowrap; opacity:0; transition:opacity .12s; pointer-events:none}
@@ -657,7 +659,7 @@ function renderMarkers(){
       const done=!!state.done[cat.id+":"+e.uid];
       if(validPos(e.pos)){
         singles.push({nx:e.pos[0], ny:e.pos[1], src:entrySprite(cat.id,e),
-                      color:catColors[cat.id]||"var(--leaf)", done, name:e.name||""});
+                      color:catColors[cat.id]||"var(--leaf)", done, name:e.name||"", key:cat.id+":"+e.uid});
         return;
       }
       const k=locKeyFor(e.location); if(!k || !LOC[k]) return;
@@ -695,10 +697,11 @@ function renderMarkers(){
     pin.dataset.nx=s.nx; pin.dataset.ny=s.ny;
     if(s.src) pin.innerHTML=`<img class="ic" loading="lazy" alt="" src="${s.src}" style="${s.done?'filter:grayscale(1)':''}" onerror="this.classList.add('ph');this.removeAttribute('src');this.style.background='${s.color}'"><span class="tag">${esc(s.name)}</span>`;
     else pin.innerHTML=`<span class="ic ph" style="background:${s.color}"></span><span class="tag">${esc(s.name)}</span>`;
-    pin.title=s.name;
+    pin.title=(s.done?"✓ ":"")+s.name+" — tocca per segnare ottenuto";
     pin.addEventListener("click",ev=>{ ev.stopPropagation();
-      document.getElementById("search").value=s.name; applyFilter();
-      document.getElementById("cats").scrollIntoView({behavior:"smooth",block:"start"});
+      const el=document.querySelector('.item[data-key="'+(window.CSS&&CSS.escape?CSS.escape(s.key):s.key)+'"]');
+      if(el){ el.click(); }            // reuses checklist toggle → updates state, totals, and re-renders markers
+      else { state.done[s.key]?delete state.done[s.key]:(state.done[s.key]=1); save(); renderMarkers(); }
     });
     layer.appendChild(pin);
   });
