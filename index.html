@@ -186,6 +186,10 @@
        background:rgba(20,17,15,.94); border:1px solid var(--line); border-radius:9px; padding:9px 11px;
        font:12px/1.4 ui-monospace,Menlo,monospace; color:var(--text)}
   .coordbox b{color:var(--leaf)} .coordbox .small{color:var(--muted); font-size:11px}
+  .livecoord{position:absolute; left:10px; bottom:10px; z-index:7; pointer-events:none;
+       background:rgba(18,15,13,.9); border:1px solid var(--line); border-radius:7px; padding:4px 9px;
+       font:600 12px/1 ui-monospace,Menlo,monospace; color:var(--text)}
+  .livecoord b{color:var(--leaf)}
   .pin.single{padding:2px; max-width:none}
   .pin.single .ic{width:22px; height:22px}
 
@@ -268,6 +272,7 @@
             <button id="pickBtn" title="Prendi coordinate (clicca un punto)" style="font-size:15px">📍</button>
           </div>
           <div class="coordbox" id="coordbox" hidden></div>
+          <div class="livecoord" id="liveCoord" hidden></div>
           <div class="maptip" id="mapTip" hidden></div>
           <div class="pickmark" id="pickMarker" hidden></div>
           <div class="canvas" id="canvas">
@@ -850,6 +855,19 @@ function initMap(){
     if(captured){ try{vp.releasePointerCapture(e.pointerId);}catch(_){} captured=false; }
     if(pickMode && !moved && mapReady) pickAt(e.clientX,e.clientY); });
   vp.addEventListener("pointercancel",()=>{ drag=false; moved=false; vp.classList.remove("grabbing"); });
+
+  // live coordinate readout: always shows x,y at the cursor while moving over the map
+  const liveCoord=document.getElementById("liveCoord");
+  vp.addEventListener("pointermove",e=>{
+    if(!mapReady||!imgW){ liveCoord.hidden=true; return; }
+    const r=vp.getBoundingClientRect();
+    const nx=(e.clientX-r.left-panX)/(imgW*zoom);
+    const ny=(e.clientY-r.top-panY)/(imgH*zoom);
+    if(nx<0||nx>1.5||ny<0||ny>1.6){ liveCoord.hidden=true; return; }  // allow gallery area below the map
+    liveCoord.hidden=false;
+    liveCoord.innerHTML=`<b>x</b> ${nx.toFixed(4)}  ·  <b>y</b> ${ny.toFixed(4)}`;
+  });
+  vp.addEventListener("pointerleave",()=>{ liveCoord.hidden=true; });
 
   // image source controls
   document.getElementById("mapUrlBtn").addEventListener("click",()=>{ const u=document.getElementById("mapUrl").value.trim(); if(u) loadMapImage(u); });
