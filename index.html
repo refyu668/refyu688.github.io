@@ -311,7 +311,8 @@
 <script>
 "use strict";
 const STORE_KEY = "frlg-completion-v1";
-const SPRITE = id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+const SPRITE = id => `sprites/pokemon-sprite/p${id}.png`;
+const SPRITE_REMOTE = id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
 let DATA = null;
 let state = load();                 // { done:{ "cat:uid":1 }, hideDone:false, collapsed:{catId:true} }
@@ -413,7 +414,7 @@ function makeItem(cat, entry){
   const isPokemon = (cat.id === "pokemon" || cat.id === "pokemonForm");
   let spriteHTML;
   if(isPokemon && /^\d+$/.test(String(entry.id))){
-    spriteHTML = `<img class="sprite" loading="lazy" alt="" src="${SPRITE(entry.id)}" onerror="this.style.visibility='hidden'">`;
+    spriteHTML = `<img class="sprite" loading="lazy" alt="" src="${SPRITE(entry.id)}" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='${SPRITE_REMOTE(entry.id)}'}else{this.style.visibility='hidden'}">`;
   } else if(typeof entry.iconUrl === "string" && /^https?:\/\//.test(entry.iconUrl)){
     spriteHTML = `<img class="sprite" loading="lazy" alt="" src="${esc(entry.iconUrl)}" onerror="this.style.visibility='hidden'">`;
   } else {
@@ -672,7 +673,7 @@ function renderInteriors(){
     const box=document.createElement("div"); box.className="interior-box";
     box.style.left=X+"px"; box.style.top=Y+"px"; box.style.width=wpx+"px";
     const lab=document.createElement("div"); lab.className="interior-label"; lab.textContent=it.label;
-    const img=document.createElement("img"); img.src="./"+it.img; img.alt=it.label;
+    const img=document.createElement("img"); img.src="sprites/Interiors/"+it.img; img.alt=it.label;
     img.onerror=()=>{ box.style.display="none"; };
     box.appendChild(lab); box.appendChild(img); canvas.appendChild(box);
   });
