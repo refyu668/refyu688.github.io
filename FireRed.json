@@ -4060,8 +4060,8 @@
      "location": "Foresta di Smeraldo (Viridian Forest)",
      "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/antidote.png",
      "pos": [
-      0.5108,
-      0.5242
+      0.491,
+      0.4643
      ]
     },
     {
@@ -4071,8 +4071,8 @@
      "location": "Foresta di Smeraldo (Viridian Forest)",
      "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/potion.png",
      "pos": [
-      0.5083,
-      0.4367
+      0.5125,
+      0.4643
      ]
     },
     {
@@ -4080,35 +4080,55 @@
      "uid": 2,
      "name": "Poke Ball (nascosto)",
      "location": "Pewter City",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png",
+     "pos": [
+      0.1645,
+      0.153
+     ]
     },
     {
      "id": "h4",
      "uid": 3,
      "name": "Oran Berry (nascosto)",
      "location": "Percorso 3",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/oran-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/oran-berry.png",
+     "pos": [
+      0.3,
+      0.17
+     ]
     },
     {
      "id": "h5",
      "uid": 4,
      "name": "Persim Berry (nascosto)",
      "location": "Percorso 4",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/persim-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/persim-berry.png",
+     "pos": [
+      0.5145,
+      0.143
+     ]
     },
     {
      "id": "h6",
      "uid": 5,
      "name": "Great Ball (nascosto)",
      "location": "Percorso 4",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/great-ball.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/great-ball.png",
+     "pos": [
+      0.5255,
+      0.143
+     ]
     },
     {
      "id": "h7",
      "uid": 6,
      "name": "Razz Berry (nascosto)",
      "location": "Percorso 4",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/razz-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/razz-berry.png",
+     "pos": [
+      0.5145,
+      0.157
+     ]
     },
     {
      "id": "h8",
@@ -4117,8 +4137,8 @@
      "location": "Monte Luna (Mt. Moon)",
      "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ether.png",
      "pos": [
-      0.6075,
-      0.5975
+      0.5913,
+      0.5874
      ]
     },
     {
@@ -4128,8 +4148,8 @@
      "location": "Monte Luna (Mt. Moon)",
      "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/moon-stone.png",
      "pos": [
-      0.6228,
-      0.6069
+      0.6236,
+      0.5874
      ]
     },
     {
@@ -4137,814 +4157,1286 @@
      "uid": 9,
      "name": "Rare Candy (nascosto)",
      "location": "Cerulean City",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rare-candy.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rare-candy.png",
+     "pos": [
+      0.6745,
+      0.123
+     ]
     },
     {
      "id": "h11",
      "uid": 10,
      "name": "Pecha Berry (nascosto)",
      "location": "Percorso 24",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pecha-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pecha-berry.png",
+     "pos": [
+      0.6745,
+      0.053
+     ]
     },
     {
      "id": "h12",
      "uid": 11,
      "name": "Elixir (nascosto)",
      "location": "Percorso 24",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/elixir.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/elixir.png",
+     "pos": [
+      0.6855,
+      0.053
+     ]
     },
     {
      "id": "h13",
      "uid": 12,
      "name": "Oran Berry (nascosto)",
      "location": "Percorso 25",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/oran-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/oran-berry.png",
+     "pos": [
+      0.7345,
+      0.033
+     ]
     },
     {
      "id": "h14",
      "uid": 13,
      "name": "Bluk Berry (nascosto)",
      "location": "Percorso 25",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bluk-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bluk-berry.png",
+     "pos": [
+      0.7455,
+      0.033
+     ]
     },
     {
      "id": "h15",
      "uid": 14,
      "name": "Ether (nascosto)",
      "location": "Percorso 25",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ether.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ether.png",
+     "pos": [
+      0.7345,
+      0.047
+     ]
     },
     {
      "id": "h16",
      "uid": 15,
      "name": "Sitrus Berry (nascosto)",
      "location": "Percorso 6",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/sitrus-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/sitrus-berry.png",
+     "pos": [
+      0.6945,
+      0.6
+     ]
     },
     {
      "id": "h17",
      "uid": 16,
      "name": "Rare Candy (nascosto)",
      "location": "Percorso 6",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rare-candy.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rare-candy.png",
+     "pos": [
+      0.7055,
+      0.6
+     ]
     },
     {
      "id": "h18",
      "uid": 17,
      "name": "Max Ether (nascosto)",
      "location": "Vermilion City",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-ether.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-ether.png",
+     "pos": [
+      0.534,
+      0.786
+     ]
     },
     {
      "id": "h19",
      "uid": 18,
      "name": "Hyper Potion (nascosto)",
      "location": "S.S. Anne (Vermilion)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hyper-potion.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hyper-potion.png",
+     "pos": [
+      0.545,
+      0.786
+     ]
     },
     {
      "id": "h20",
      "uid": 19,
      "name": "Pecha Berry (nascosto)",
      "location": "S.S. Anne (Vermilion)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pecha-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pecha-berry.png",
+     "pos": [
+      0.556,
+      0.786
+     ]
     },
     {
      "id": "h21",
      "uid": 20,
      "name": "Cheri Berry (nascosto)",
      "location": "S.S. Anne (Vermilion)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cheri-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cheri-berry.png",
+     "pos": [
+      0.534,
+      0.8
+     ]
     },
     {
      "id": "h22",
      "uid": 21,
      "name": "Chesto Berry (nascosto)",
      "location": "S.S. Anne (Vermilion)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/chesto-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/chesto-berry.png",
+     "pos": [
+      0.545,
+      0.8
+     ]
     },
     {
      "id": "h23",
      "uid": 22,
      "name": "Escape Rope (nascosto)",
      "location": "Percorso 11",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/escape-rope.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/escape-rope.png",
+     "pos": [
+      0.66,
+      0.78
+     ]
     },
     {
      "id": "h24",
      "uid": 23,
      "name": "Ether (nascosto)",
      "location": "Percorso 9",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ether.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ether.png",
+     "pos": [
+      0.8145,
+      0.113
+     ]
     },
     {
      "id": "h25",
      "uid": 24,
      "name": "Chesto Berry (nascosto)",
      "location": "Percorso 9",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/chesto-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/chesto-berry.png",
+     "pos": [
+      0.8255,
+      0.113
+     ]
     },
     {
      "id": "h26",
      "uid": 25,
      "name": "Rare Candy (nascosto)",
      "location": "Percorso 9",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rare-candy.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rare-candy.png",
+     "pos": [
+      0.8145,
+      0.127
+     ]
     },
     {
      "id": "h27",
      "uid": 26,
      "name": "Persim Berry (nascosto)",
      "location": "Percorso 10",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/persim-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/persim-berry.png",
+     "pos": [
+      0.9145,
+      0.253
+     ]
     },
     {
      "id": "h28",
      "uid": 27,
      "name": "Super Potion (nascosto)",
      "location": "Percorso 10",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/super-potion.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/super-potion.png",
+     "pos": [
+      0.9255,
+      0.253
+     ]
     },
     {
      "id": "h29",
      "uid": 28,
      "name": "Cheri Berry (nascosto)",
      "location": "Percorso 10",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cheri-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cheri-berry.png",
+     "pos": [
+      0.9145,
+      0.267
+     ]
     },
     {
      "id": "h30",
      "uid": 29,
      "name": "Nanab Berry (nascosto)",
      "location": "Percorso 10",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nanab-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nanab-berry.png",
+     "pos": [
+      0.9255,
+      0.267
+     ]
     },
     {
      "id": "h31",
      "uid": 30,
      "name": "Leppa Berry (nascosto)",
      "location": "Percorso 8",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/leppa-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/leppa-berry.png",
+     "pos": [
+      0.8545,
+      0.348
+     ]
     },
     {
      "id": "h32",
      "uid": 31,
      "name": "Rawst Berry (nascosto)",
      "location": "Percorso 8",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rawst-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rawst-berry.png",
+     "pos": [
+      0.8655,
+      0.348
+     ]
     },
     {
      "id": "h33",
      "uid": 32,
      "name": "Lum Berry (nascosto)",
      "location": "Percorso 8",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/lum-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/lum-berry.png",
+     "pos": [
+      0.8545,
+      0.362
+     ]
     },
     {
      "id": "h34",
      "uid": 33,
      "name": "Wepear Berry (nascosto)",
      "location": "Percorso 7",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/wepear-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/wepear-berry.png",
+     "pos": [
+      0.63,
+      0.35
+     ]
     },
     {
      "id": "h35",
      "uid": 34,
      "name": "PP Up (nascosto)",
      "location": "Celadon City",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pp-up.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pp-up.png",
+     "pos": [
+      0.4625,
+      0.322
+     ]
     },
     {
      "id": "h36",
      "uid": 35,
      "name": "100 Coins (nascosto)",
-     "location": "Game Corner (Celadon)"
+     "location": "Game Corner (Celadon)",
+     "pos": [
+      0.4735,
+      0.322
+     ]
     },
     {
      "id": "h37",
      "uid": 36,
      "name": "10 Coins (nascosto)",
-     "location": "Game Corner (Celadon)"
+     "location": "Game Corner (Celadon)",
+     "pos": [
+      0.4845,
+      0.322
+     ]
     },
     {
      "id": "h38",
      "uid": 37,
      "name": "10 Coins (nascosto)",
-     "location": "Game Corner (Celadon)"
+     "location": "Game Corner (Celadon)",
+     "pos": [
+      0.4955,
+      0.322
+     ]
     },
     {
      "id": "h39",
      "uid": 38,
      "name": "40 Coins (nascosto)",
-     "location": "Game Corner (Celadon)"
+     "location": "Game Corner (Celadon)",
+     "pos": [
+      0.5065,
+      0.322
+     ]
     },
     {
      "id": "h40",
      "uid": 39,
      "name": "10 Coins (nascosto)",
-     "location": "Game Corner (Celadon)"
+     "location": "Game Corner (Celadon)",
+     "pos": [
+      0.5175,
+      0.322
+     ]
     },
     {
      "id": "h41",
      "uid": 40,
      "name": "10 Coins (nascosto)",
-     "location": "Game Corner (Celadon)"
+     "location": "Game Corner (Celadon)",
+     "pos": [
+      0.4625,
+      0.336
+     ]
     },
     {
      "id": "h42",
      "uid": 41,
      "name": "20 Coins (nascosto)",
-     "location": "Game Corner (Celadon)"
+     "location": "Game Corner (Celadon)",
+     "pos": [
+      0.4735,
+      0.336
+     ]
     },
     {
      "id": "h43",
      "uid": 42,
      "name": "10 Coins (nascosto)",
-     "location": "Game Corner (Celadon)"
+     "location": "Game Corner (Celadon)",
+     "pos": [
+      0.4845,
+      0.336
+     ]
     },
     {
      "id": "h44",
      "uid": 43,
      "name": "10 Coins (nascosto)",
-     "location": "Game Corner (Celadon)"
+     "location": "Game Corner (Celadon)",
+     "pos": [
+      0.4955,
+      0.336
+     ]
     },
     {
      "id": "h45",
      "uid": 44,
      "name": "10 Coins (nascosto)",
-     "location": "Game Corner (Celadon)"
+     "location": "Game Corner (Celadon)",
+     "pos": [
+      0.5065,
+      0.336
+     ]
     },
     {
      "id": "h46",
      "uid": 45,
      "name": "20 Coins (nascosto)",
-     "location": "Game Corner (Celadon)"
+     "location": "Game Corner (Celadon)",
+     "pos": [
+      0.5175,
+      0.336
+     ]
     },
     {
      "id": "h47",
      "uid": 46,
      "name": "10 Coins (nascosto)",
-     "location": "Game Corner (Celadon)"
+     "location": "Game Corner (Celadon)",
+     "pos": [
+      0.4625,
+      0.35
+     ]
     },
     {
      "id": "h48",
      "uid": 47,
      "name": "PP Up (nascosto)",
      "location": "Nascondiglio Rocket (Celadon)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pp-up.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pp-up.png",
+     "pos": [
+      0.4735,
+      0.35
+     ]
     },
     {
      "id": "h49",
      "uid": 48,
      "name": "Nugget (nascosto)",
      "location": "Nascondiglio Rocket (Celadon)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nugget.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nugget.png",
+     "pos": [
+      0.4845,
+      0.35
+     ]
     },
     {
      "id": "h50",
      "uid": 49,
      "name": "Net Ball (nascosto)",
      "location": "Nascondiglio Rocket (Celadon)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/net-ball.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/net-ball.png",
+     "pos": [
+      0.4955,
+      0.35
+     ]
     },
     {
      "id": "h51",
      "uid": 50,
      "name": "Nest Ball (nascosto)",
      "location": "Nascondiglio Rocket (Celadon)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nest-ball.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nest-ball.png",
+     "pos": [
+      0.5065,
+      0.35
+     ]
     },
     {
      "id": "h52",
      "uid": 51,
      "name": "Big Mushroom (nascosto)",
      "location": "Torre Pokémon (Lavender)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/big-mushroom.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/big-mushroom.png",
+     "pos": [
+      0.9095,
+      0.353
+     ]
     },
     {
      "id": "h53",
      "uid": 52,
      "name": "Soothe Bell (nascosto)",
      "location": "Torre Pokémon (Lavender)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/soothe-bell.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/soothe-bell.png",
+     "pos": [
+      0.9205,
+      0.353
+     ]
     },
     {
      "id": "h54",
      "uid": 53,
      "name": "Ultra Ball (nascosto)",
      "location": "Silph S.p.A. (Saffron)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png",
+     "pos": [
+      0.758,
+      0.329
+     ]
     },
     {
      "id": "h55",
      "uid": 54,
      "name": "Protein (nascosto)",
      "location": "Silph S.p.A. (Saffron)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/protein.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/protein.png",
+     "pos": [
+      0.769,
+      0.329
+     ]
     },
     {
      "id": "h56",
      "uid": 55,
      "name": "Iron (nascosto)",
      "location": "Silph S.p.A. (Saffron)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/iron.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/iron.png",
+     "pos": [
+      0.78,
+      0.329
+     ]
     },
     {
      "id": "h57",
      "uid": 56,
      "name": "PP Up (nascosto)",
      "location": "Silph S.p.A. (Saffron)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pp-up.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pp-up.png",
+     "pos": [
+      0.791,
+      0.329
+     ]
     },
     {
      "id": "h58",
      "uid": 57,
      "name": "Elixir (nascosto)",
      "location": "Silph S.p.A. (Saffron)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/elixir.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/elixir.png",
+     "pos": [
+      0.802,
+      0.329
+     ]
     },
     {
      "id": "h59",
      "uid": 58,
      "name": "Carbos (nascosto)",
      "location": "Silph S.p.A. (Saffron)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/carbos.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/carbos.png",
+     "pos": [
+      0.758,
+      0.343
+     ]
     },
     {
      "id": "h60",
      "uid": 59,
      "name": "Zinc (nascosto)",
      "location": "Silph S.p.A. (Saffron)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/zinc.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/zinc.png",
+     "pos": [
+      0.769,
+      0.343
+     ]
     },
     {
      "id": "h61",
      "uid": 60,
      "name": "Nugget (nascosto)",
      "location": "Silph S.p.A. (Saffron)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nugget.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nugget.png",
+     "pos": [
+      0.78,
+      0.343
+     ]
     },
     {
      "id": "h62",
      "uid": 61,
      "name": "Calcium (nascosto)",
      "location": "Silph S.p.A. (Saffron)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/calcium.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/calcium.png",
+     "pos": [
+      0.791,
+      0.343
+     ]
     },
     {
      "id": "h63",
      "uid": 62,
      "name": "HP Up (nascosto)",
      "location": "Silph S.p.A. (Saffron)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hp-up.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hp-up.png",
+     "pos": [
+      0.802,
+      0.343
+     ]
     },
     {
      "id": "h64",
      "uid": 63,
      "name": "Revive (nascosto)",
      "location": "Silph S.p.A. (Saffron)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/revive.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/revive.png",
+     "pos": [
+      0.758,
+      0.357
+     ]
     },
     {
      "id": "h65",
      "uid": 64,
      "name": "Nugget (nascosto)",
      "location": "Saffron City",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nugget.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nugget.png",
+     "pos": [
+      0.769,
+      0.357
+     ]
     },
     {
      "id": "h66",
      "uid": 65,
      "name": "Leftovers (nascosto)",
      "location": "Percorso 16",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/leftovers.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/leftovers.png",
+     "pos": [
+      0.34,
+      0.43
+     ]
     },
     {
      "id": "h67",
      "uid": 66,
      "name": "Full Restore (nascosto)",
      "location": "Percorso 17",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/full-restore.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/full-restore.png",
+     "pos": [
+      0.329,
+      0.593
+     ]
     },
     {
      "id": "h68",
      "uid": 67,
      "name": "PP Up (nascosto)",
      "location": "Percorso 17",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pp-up.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pp-up.png",
+     "pos": [
+      0.34,
+      0.593
+     ]
     },
     {
      "id": "h69",
      "uid": 68,
      "name": "Max Revive (nascosto)",
      "location": "Percorso 17",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-revive.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-revive.png",
+     "pos": [
+      0.351,
+      0.593
+     ]
     },
     {
      "id": "h70",
      "uid": 69,
      "name": "Rare Candy (nascosto)",
      "location": "Percorso 17",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rare-candy.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rare-candy.png",
+     "pos": [
+      0.329,
+      0.607
+     ]
     },
     {
      "id": "h71",
      "uid": 70,
      "name": "Max Elixir (nascosto)",
      "location": "Percorso 17",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-elixir.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-elixir.png",
+     "pos": [
+      0.34,
+      0.607
+     ]
     },
     {
      "id": "h72",
      "uid": 71,
      "name": "Max Revive (nascosto)",
      "location": "Fuchsia City",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-revive.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-revive.png",
+     "pos": [
+      0.6945,
+      0.52
+     ]
     },
     {
      "id": "h73",
      "uid": 72,
      "name": "Leaf Stone (nascosto)",
      "location": "Safari Zone",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/leaf-stone.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/leaf-stone.png",
+     "pos": [
+      0.809,
+      0.543
+     ]
     },
     {
      "id": "h74",
      "uid": 73,
      "name": "Revive (nascosto)",
      "location": "Safari Zone",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/revive.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/revive.png",
+     "pos": [
+      0.82,
+      0.543
+     ]
     },
     {
      "id": "h75",
      "uid": 74,
      "name": "Pinap Berry (nascosto)",
      "location": "Percorso 14",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pinap-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pinap-berry.png",
+     "pos": [
+      0.8745,
+      0.66
+     ]
     },
     {
      "id": "h76",
      "uid": 75,
      "name": "Zinc (nascosto)",
      "location": "Percorso 14",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/zinc.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/zinc.png",
+     "pos": [
+      0.8855,
+      0.66
+     ]
     },
     {
      "id": "h77",
      "uid": 76,
      "name": "PP Up (nascosto)",
      "location": "Percorso 13",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pp-up.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pp-up.png",
+     "pos": [
+      0.92,
+      0.62
+     ]
     },
     {
      "id": "h78",
      "uid": 77,
      "name": "Hyper Potion (nascosto)",
      "location": "Percorso 12",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hyper-potion.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hyper-potion.png",
+     "pos": [
+      0.9445,
+      0.513
+     ]
     },
     {
      "id": "h79",
      "uid": 78,
      "name": "Rare Candy (nascosto)",
      "location": "Percorso 12",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rare-candy.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rare-candy.png",
+     "pos": [
+      0.9555,
+      0.513
+     ]
     },
     {
      "id": "h80",
      "uid": 79,
      "name": "Leftovers (nascosto)",
      "location": "Percorso 12",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/leftovers.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/leftovers.png",
+     "pos": [
+      0.9445,
+      0.527
+     ]
     },
     {
      "id": "h81",
      "uid": 80,
      "name": "Max Ether (nascosto)",
      "location": "Centrale Energetica (Power Plant)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-ether.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-ether.png",
+     "pos": [
+      0.889,
+      0.213
+     ]
     },
     {
      "id": "h82",
      "uid": 81,
      "name": "Max Elixir (nascosto)",
      "location": "Centrale Energetica (Power Plant)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-elixir.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-elixir.png",
+     "pos": [
+      0.9,
+      0.213
+     ]
     },
     {
      "id": "h83",
      "uid": 82,
      "name": "Thunderstone (nascosto)",
      "location": "Centrale Energetica (Power Plant)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/thunder-stone.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/thunder-stone.png",
+     "pos": [
+      0.911,
+      0.213
+     ]
     },
     {
      "id": "h84",
      "uid": 83,
      "name": "Nugget (nascosto)",
      "location": "Isole Spuma (Seafoam Islands)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nugget.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nugget.png",
+     "pos": [
+      0.3345,
+      0.95
+     ]
     },
     {
      "id": "h85",
      "uid": 84,
      "name": "Water Stone (nascosto)",
      "location": "Isole Spuma (Seafoam Islands)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/water-stone.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/water-stone.png",
+     "pos": [
+      0.3455,
+      0.95
+     ]
     },
     {
      "id": "h86",
      "uid": 85,
      "name": "Moon Stone (nascosto)",
      "location": "Villa Pokémon (Cinnabar)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/moon-stone.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/moon-stone.png",
+     "pos": [
+      0.169,
+      0.953
+     ]
     },
     {
      "id": "h87",
      "uid": 86,
      "name": "Rare Candy (nascosto)",
      "location": "Villa Pokémon (Cinnabar)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rare-candy.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rare-candy.png",
+     "pos": [
+      0.18,
+      0.953
+     ]
     },
     {
      "id": "h88",
      "uid": 87,
      "name": "Elixir (nascosto)",
      "location": "Villa Pokémon (Cinnabar)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/elixir.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/elixir.png",
+     "pos": [
+      0.191,
+      0.953
+     ]
     },
     {
      "id": "h89",
      "uid": 88,
      "name": "Rare Candy (nascosto)",
      "location": "Two Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rare-candy.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rare-candy.png",
+     "pos": [
+      0.4345,
+      0.51
+     ]
     },
     {
      "id": "h90",
      "uid": 89,
      "name": "PP Max (nascosto)",
      "location": "Two Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pp-max.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pp-max.png",
+     "pos": [
+      0.4455,
+      0.51
+     ]
     },
     {
      "id": "h91",
      "uid": 90,
      "name": "PP Up (nascosto)",
      "location": "Three Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pp-up.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pp-up.png",
+     "pos": [
+      0.429,
+      0.536
+     ]
     },
     {
      "id": "h92",
      "uid": 91,
      "name": "Max Repel (nascosto)",
      "location": "Three Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-repel.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-repel.png",
+     "pos": [
+      0.44,
+      0.536
+     ]
     },
     {
      "id": "h93",
      "uid": 92,
      "name": "Oran Berry (nascosto)",
      "location": "Berry Forest (Three Island)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/oran-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/oran-berry.png",
+     "pos": [
+      0.451,
+      0.536
+     ]
     },
     {
      "id": "h94",
      "uid": 93,
      "name": "Persim Berry (nascosto)",
      "location": "Berry Forest (Three Island)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/persim-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/persim-berry.png",
+     "pos": [
+      0.429,
+      0.55
+     ]
     },
     {
      "id": "h95",
      "uid": 94,
      "name": "Pinap Berry (nascosto)",
      "location": "Berry Forest (Three Island)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pinap-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pinap-berry.png",
+     "pos": [
+      0.44,
+      0.55
+     ]
     },
     {
      "id": "h96",
      "uid": 95,
      "name": "Aspear Berry (nascosto)",
      "location": "Berry Forest (Three Island)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/aspear-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/aspear-berry.png",
+     "pos": [
+      0.451,
+      0.55
+     ]
     },
     {
      "id": "h97",
      "uid": 96,
      "name": "Bluk Berry (nascosto)",
      "location": "Berry Forest (Three Island)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bluk-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bluk-berry.png",
+     "pos": [
+      0.429,
+      0.564
+     ]
     },
     {
      "id": "h98",
      "uid": 97,
      "name": "Wepear Berry (nascosto)",
      "location": "Berry Forest (Three Island)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/wepear-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/wepear-berry.png",
+     "pos": [
+      0.44,
+      0.564
+     ]
     },
     {
      "id": "h99",
      "uid": 98,
      "name": "Cheri Berry (nascosto)",
      "location": "Berry Forest (Three Island)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cheri-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cheri-berry.png",
+     "pos": [
+      0.451,
+      0.564
+     ]
     },
     {
      "id": "h100",
      "uid": 99,
      "name": "Macho Brace (nascosto)",
      "location": "Viridian City",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/macho-brace.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/macho-brace.png",
+     "pos": [
+      0.1645,
+      0.49
+     ]
     },
     {
      "id": "h101",
      "uid": 100,
      "name": "Leppa Berry (nascosto)",
      "location": "Percorso 23",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/leppa-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/leppa-berry.png",
+     "pos": [
+      0.039,
+      0.286
+     ]
     },
     {
      "id": "h102",
      "uid": 101,
      "name": "Max Ether (nascosto)",
      "location": "Percorso 23",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-ether.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-ether.png",
+     "pos": [
+      0.05,
+      0.286
+     ]
     },
     {
      "id": "h103",
      "uid": 102,
      "name": "Ultra Ball (nascosto)",
      "location": "Percorso 23",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png",
+     "pos": [
+      0.061,
+      0.286
+     ]
     },
     {
      "id": "h104",
      "uid": 103,
      "name": "Aspear Berry (nascosto)",
      "location": "Percorso 23",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/aspear-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/aspear-berry.png",
+     "pos": [
+      0.039,
+      0.3
+     ]
     },
     {
      "id": "h105",
      "uid": 104,
      "name": "Full Restore (nascosto)",
      "location": "Percorso 23",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/full-restore.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/full-restore.png",
+     "pos": [
+      0.05,
+      0.3
+     ]
     },
     {
      "id": "h106",
      "uid": 105,
      "name": "Sitrus Berry (nascosto)",
      "location": "Percorso 23",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/sitrus-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/sitrus-berry.png",
+     "pos": [
+      0.061,
+      0.3
+     ]
     },
     {
      "id": "h107",
      "uid": 106,
      "name": "Lum Berry (nascosto)",
      "location": "Percorso 23",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/lum-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/lum-berry.png",
+     "pos": [
+      0.039,
+      0.314
+     ]
     },
     {
      "id": "h108",
      "uid": 107,
      "name": "Max Elixir (nascosto)",
      "location": "Percorso 23",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-elixir.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/max-elixir.png",
+     "pos": [
+      0.05,
+      0.314
+     ]
     },
     {
      "id": "h109",
      "uid": 108,
      "name": "Full Restore (nascosto)",
      "location": "Cammino Vittoria (Altopiano Blu)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/full-restore.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/full-restore.png",
+     "pos": [
+      0.034,
+      0.048
+     ]
     },
     {
      "id": "h110",
      "uid": 109,
      "name": "Ultra Ball (nascosto)",
      "location": "Cammino Vittoria (Altopiano Blu)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png",
+     "pos": [
+      0.045,
+      0.048
+     ]
     },
     {
      "id": "h111",
      "uid": 110,
      "name": "Ultra Ball (nascosto)",
      "location": "Monte Ember (One Island)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png",
+     "pos": [
+      0.4345,
+      0.47
+     ]
     },
     {
      "id": "h112",
      "uid": 111,
      "name": "Fire Stone (nascosto)",
      "location": "Monte Ember (One Island)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/fire-stone.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/fire-stone.png",
+     "pos": [
+      0.4455,
+      0.47
+     ]
     },
     {
      "id": "h113",
      "uid": 112,
      "name": "Ultra Ball (nascosto)",
      "location": "Four Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png",
+     "pos": [
+      0.44,
+      0.59
+     ]
     },
     {
      "id": "h114",
      "uid": 113,
      "name": "Razz Berry (nascosto)",
      "location": "Five Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/razz-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/razz-berry.png",
+     "pos": [
+      0.429,
+      0.616
+     ]
     },
     {
      "id": "h115",
      "uid": 114,
      "name": "Sitrus Berry (nascosto)",
      "location": "Five Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/sitrus-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/sitrus-berry.png",
+     "pos": [
+      0.44,
+      0.616
+     ]
     },
     {
      "id": "h116",
      "uid": 115,
      "name": "Bluk Berry (nascosto)",
      "location": "Five Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bluk-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bluk-berry.png",
+     "pos": [
+      0.451,
+      0.616
+     ]
     },
     {
      "id": "h117",
      "uid": 116,
      "name": "Big Pearl (nascosto)",
      "location": "Five Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/big-pearl.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/big-pearl.png",
+     "pos": [
+      0.429,
+      0.63
+     ]
     },
     {
      "id": "h118",
      "uid": 117,
      "name": "Net Ball (nascosto)",
      "location": "Five Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/net-ball.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/net-ball.png",
+     "pos": [
+      0.44,
+      0.63
+     ]
     },
     {
      "id": "h119",
      "uid": 118,
      "name": "Nest Ball (nascosto)",
      "location": "Five Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nest-ball.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nest-ball.png",
+     "pos": [
+      0.451,
+      0.63
+     ]
     },
     {
      "id": "h120",
      "uid": 119,
      "name": "Leppa Berry (nascosto)",
      "location": "Six Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/leppa-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/leppa-berry.png",
+     "pos": [
+      0.4345,
+      0.663
+     ]
     },
     {
      "id": "h121",
      "uid": 120,
      "name": "Pinap Berry (nascosto)",
      "location": "Six Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pinap-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pinap-berry.png",
+     "pos": [
+      0.4455,
+      0.663
+     ]
     },
     {
      "id": "h122",
      "uid": 121,
      "name": "Aspear Berry (nascosto)",
      "location": "Six Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/aspear-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/aspear-berry.png",
+     "pos": [
+      0.4345,
+      0.677
+     ]
     },
     {
      "id": "h123",
      "uid": 122,
      "name": "Oran Berry (nascosto)",
      "location": "Six Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/oran-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/oran-berry.png",
+     "pos": [
+      0.4455,
+      0.677
+     ]
     },
     {
      "id": "h124",
      "uid": 123,
      "name": "Nanab Berry (nascosto)",
      "location": "Seven Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nanab-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nanab-berry.png",
+     "pos": [
+      0.4345,
+      0.703
+     ]
     },
     {
      "id": "h125",
      "uid": 124,
      "name": "Pearl (nascosto)",
      "location": "Seven Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pearl.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pearl.png",
+     "pos": [
+      0.4455,
+      0.703
+     ]
     },
     {
      "id": "h126",
      "uid": 125,
      "name": "Rawst Berry (nascosto)",
      "location": "Seven Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rawst-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rawst-berry.png",
+     "pos": [
+      0.4345,
+      0.717
+     ]
     },
     {
      "id": "h127",
      "uid": 126,
      "name": "Cheri Berry (nascosto)",
      "location": "Seven Island",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cheri-berry.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cheri-berry.png",
+     "pos": [
+      0.4455,
+      0.717
+     ]
     },
     {
      "id": "h128",
@@ -4953,7 +5445,7 @@
      "location": "Grotta Celeste (Cerulean Cave)",
      "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png",
      "pos": [
-      0.4828,
+      0.5125,
       0.5749
      ]
     },
@@ -4962,63 +5454,99 @@
      "uid": 128,
      "name": "TM01 Focus Punch",
      "location": "Silph S.p.A. 5F (Saffron) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-fighting.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-fighting.png",
+     "pos": [
+      0.78,
+      0.357
+     ]
     },
     {
      "id": "tm02",
      "uid": 129,
      "name": "TM02 Dragon Claw",
      "location": "Cammino Vittoria 1F (Altopiano Blu) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-dragon.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-dragon.png",
+     "pos": [
+      0.056,
+      0.048
+     ]
     },
     {
      "id": "tm03",
      "uid": 130,
      "name": "TM03 Water Pulse",
      "location": "Cerulean City — premio Palestra (Misty)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-water.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-water.png",
+     "pos": [
+      0.6855,
+      0.123
+     ]
     },
     {
      "id": "tm04",
      "uid": 131,
      "name": "TM04 Calm Mind",
      "location": "Saffron City — premio Palestra (Sabrina)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-psychic.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-psychic.png",
+     "pos": [
+      0.791,
+      0.357
+     ]
     },
     {
      "id": "tm05",
      "uid": 132,
      "name": "TM05 Roar",
      "location": "Percorso 4 — a terra (o Dept. Store Celadon)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png",
+     "pos": [
+      0.5255,
+      0.157
+     ]
     },
     {
      "id": "tm06",
      "uid": 133,
      "name": "TM06 Toxic",
      "location": "Fuchsia City — premio Palestra (Koga)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-poison.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-poison.png",
+     "pos": [
+      0.7055,
+      0.52
+     ]
     },
     {
      "id": "tm07",
      "uid": 134,
      "name": "TM07 Hail",
      "location": "Cammino Vittoria 2F (Altopiano Blu) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-ice.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-ice.png",
+     "pos": [
+      0.034,
+      0.062
+     ]
     },
     {
      "id": "tm08",
      "uid": 135,
      "name": "TM08 Bulk Up",
      "location": "Silph S.p.A. 7F (Saffron) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-fighting.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-fighting.png",
+     "pos": [
+      0.802,
+      0.357
+     ]
     },
     {
      "id": "tm09",
      "uid": 136,
      "name": "TM09 Bullet Seed",
      "location": "Monte Luna 1F (Mt. Moon) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-grass.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-grass.png",
+     "pos": [
+      0.6075,
+      0.4657
+     ]
     },
     {
      "id": "tm10",
@@ -5032,308 +5560,484 @@
      "uid": 138,
      "name": "TM11 Sunny Day",
      "location": "Safari Zone, Area 1 — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-fire.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-fire.png",
+     "pos": [
+      0.831,
+      0.543
+     ]
     },
     {
      "id": "tm12",
      "uid": 139,
      "name": "TM12 Taunt",
      "location": "Nascondiglio Rocket B2F (Celadon) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-dark.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-dark.png",
+     "pos": [
+      0.5175,
+      0.35
+     ]
     },
     {
      "id": "tm13",
      "uid": 140,
      "name": "TM13 Ice Beam",
      "location": "Game Corner (Celadon) — 4.000 gettoni",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-ice.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-ice.png",
+     "pos": [
+      0.4625,
+      0.364
+     ]
     },
     {
      "id": "tm14",
      "uid": 141,
      "name": "TM14 Blizzard",
      "location": "Villa Pokémon B1F (Cinnabar) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-ice.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-ice.png",
+     "pos": [
+      0.169,
+      0.967
+     ]
     },
     {
      "id": "tm15",
      "uid": 142,
      "name": "TM15 Hyper Beam",
      "location": "Dept. Store (Celadon) — 7.500",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png",
+     "pos": [
+      0.4735,
+      0.364
+     ]
     },
     {
      "id": "tm16",
      "uid": 143,
      "name": "TM16 Light Screen",
      "location": "Dept. Store, tetto (Celadon) — dona Acqua Fresca",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-psychic.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-psychic.png",
+     "pos": [
+      0.4845,
+      0.364
+     ]
     },
     {
      "id": "tm17",
      "uid": 144,
      "name": "TM17 Protect",
      "location": "Centrale Energetica (Power Plant) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png",
+     "pos": [
+      0.889,
+      0.227
+     ]
     },
     {
      "id": "tm18",
      "uid": 145,
      "name": "TM18 Rain Dance",
      "location": "Percorso 15 — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-water.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-water.png",
+     "pos": [
+      0.8,
+      0.66
+     ]
     },
     {
      "id": "tm19",
      "uid": 146,
      "name": "TM19 Giga Drain",
      "location": "Celadon City — premio Palestra (Erika)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-grass.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-grass.png",
+     "pos": [
+      0.4955,
+      0.364
+     ]
     },
     {
      "id": "tm20",
      "uid": 147,
      "name": "TM20 Safeguard",
      "location": "Dept. Store, tetto (Celadon) — dona Aranciata",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png",
+     "pos": [
+      0.5065,
+      0.364
+     ]
     },
     {
      "id": "tm21",
      "uid": 148,
      "name": "TM21 Frustration",
      "location": "Nascondiglio Rocket B3F (Celadon) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png",
+     "pos": [
+      0.5175,
+      0.364
+     ]
     },
     {
      "id": "tm22",
      "uid": 149,
      "name": "TM22 Solar Beam",
      "location": "Villa Pokémon B1F (Cinnabar) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-grass.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-grass.png",
+     "pos": [
+      0.18,
+      0.967
+     ]
     },
     {
      "id": "tm23",
      "uid": 150,
      "name": "TM23 Iron Tail",
      "location": "Game Corner (Celadon) — 3.500 gettoni",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-steel.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-steel.png",
+     "pos": [
+      0.4625,
+      0.378
+     ]
     },
     {
      "id": "tm24",
      "uid": 151,
      "name": "TM24 Thunderbolt",
      "location": "Game Corner (Celadon) — 4.000 gettoni",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-electric.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-electric.png",
+     "pos": [
+      0.4735,
+      0.378
+     ]
     },
     {
      "id": "tm25",
      "uid": 152,
      "name": "TM25 Thunder",
      "location": "Centrale Energetica (Power Plant) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-electric.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-electric.png",
+     "pos": [
+      0.9,
+      0.227
+     ]
     },
     {
      "id": "tm26",
      "uid": 153,
      "name": "TM26 Earthquake",
      "location": "Viridian City — premio Palestra (Giovanni)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-ground.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-ground.png",
+     "pos": [
+      0.1755,
+      0.49
+     ]
     },
     {
      "id": "tm27",
      "uid": 154,
      "name": "TM27 Return",
      "location": "Lavender — ragazza al gate sud (Pokémon felice)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png",
+     "pos": [
+      0.9095,
+      0.367
+     ]
     },
     {
      "id": "tm28",
      "uid": 155,
      "name": "TM28 Dig",
      "location": "Cerulean City — Team Rocket (o Dept. Store Celadon)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-ground.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-ground.png",
+     "pos": [
+      0.6745,
+      0.137
+     ]
     },
     {
      "id": "tm29",
      "uid": 156,
      "name": "TM29 Psychic",
      "location": "Saffron City — dono di Mr. Psychic",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-psychic.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-psychic.png",
+     "pos": [
+      0.758,
+      0.371
+     ]
     },
     {
      "id": "tm30",
      "uid": 157,
      "name": "TM30 Shadow Ball",
      "location": "Game Corner (Celadon) — 4.500 gettoni",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-ghost.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-ghost.png",
+     "pos": [
+      0.4845,
+      0.378
+     ]
     },
     {
      "id": "tm31",
      "uid": 158,
      "name": "TM31 Brick Break",
      "location": "S.S. Anne 1F (Vermilion) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-fighting.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-fighting.png",
+     "pos": [
+      0.556,
+      0.8
+     ]
     },
     {
      "id": "tm32",
      "uid": 159,
      "name": "TM32 Double Team",
      "location": "Safari Zone, Area 4 — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png",
+     "pos": [
+      0.809,
+      0.557
+     ]
     },
     {
      "id": "tm33",
      "uid": 160,
      "name": "TM33 Reflect",
      "location": "Dept. Store (Celadon) — 1.000 / tetto dona Limonata",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-psychic.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-psychic.png",
+     "pos": [
+      0.4955,
+      0.378
+     ]
     },
     {
      "id": "tm34",
      "uid": 161,
      "name": "TM34 Shock Wave",
      "location": "Vermilion City — premio Palestra (Lt. Surge)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-electric.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-electric.png",
+     "pos": [
+      0.534,
+      0.814
+     ]
     },
     {
      "id": "tm35",
      "uid": 162,
      "name": "TM35 Flamethrower",
      "location": "Game Corner (Celadon) — 4.000 gettoni",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-fire.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-fire.png",
+     "pos": [
+      0.5065,
+      0.378
+     ]
     },
     {
      "id": "tm36",
      "uid": 163,
      "name": "TM36 Sludge Bomb",
      "location": "Magazzino Rocket, Five Island — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-poison.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-poison.png",
+     "pos": [
+      0.429,
+      0.644
+     ]
     },
     {
      "id": "tm37",
      "uid": 164,
      "name": "TM37 Sandstorm",
      "location": "Cammino Vittoria 2F (Altopiano Blu) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-rock.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-rock.png",
+     "pos": [
+      0.045,
+      0.062
+     ]
     },
     {
      "id": "tm38",
      "uid": 165,
      "name": "TM38 Fire Blast",
      "location": "Cinnabar Island — premio Palestra (Blaine)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-fire.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-fire.png",
+     "pos": [
+      0.191,
+      0.967
+     ]
     },
     {
      "id": "tm39",
      "uid": 166,
      "name": "TM39 Rock Tomb",
      "location": "Pewter City — premio Palestra (Brock)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-rock.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-rock.png",
+     "pos": [
+      0.1755,
+      0.153
+     ]
     },
     {
      "id": "tm40",
      "uid": 167,
      "name": "TM40 Aerial Ace",
      "location": "Percorso 9 — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-flying.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-flying.png",
+     "pos": [
+      0.8255,
+      0.127
+     ]
     },
     {
      "id": "tm41",
      "uid": 168,
      "name": "TM41 Torment",
      "location": "Silph S.p.A. 4F (Saffron) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-dark.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-dark.png",
+     "pos": [
+      0.769,
+      0.371
+     ]
     },
     {
      "id": "tm42",
      "uid": 169,
      "name": "TM42 Facade",
      "location": "Memorial Pillar (Five Island) — lascia una Limonata",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png",
+     "pos": [
+      0.44,
+      0.644
+     ]
     },
     {
      "id": "tm43",
      "uid": 170,
      "name": "TM43 Secret Power",
      "location": "Percorso 25 — a terra (o Dept. Store Celadon)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png",
+     "pos": [
+      0.7455,
+      0.047
+     ]
     },
     {
      "id": "tm44",
      "uid": 171,
      "name": "TM44 Rest",
      "location": "S.S. Anne B1F (Vermilion) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-psychic.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-psychic.png",
+     "pos": [
+      0.545,
+      0.814
+     ]
     },
     {
      "id": "tm45",
      "uid": 172,
      "name": "TM45 Attract",
      "location": "Percorso 24 — a terra (o Dept. Store Celadon)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png",
+     "pos": [
+      0.6745,
+      0.067
+     ]
     },
     {
      "id": "tm46",
      "uid": 173,
      "name": "TM46 Thief",
      "location": "Monte Luna B2F (Mt. Moon) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-dark.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-dark.png",
+     "pos": [
+      0.5913,
+      0.6149
+     ]
     },
     {
      "id": "tm47",
      "uid": 174,
      "name": "TM47 Steel Wing",
      "location": "Safari Zone, Area 3 — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-steel.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-steel.png",
+     "pos": [
+      0.82,
+      0.557
+     ]
     },
     {
      "id": "tm48",
      "uid": 175,
      "name": "TM48 Skill Swap",
      "location": "Percorso 12 — a terra (serve Surf)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-psychic.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-psychic.png",
+     "pos": [
+      0.9555,
+      0.527
+     ]
     },
     {
      "id": "tm49",
      "uid": 176,
      "name": "TM49 Snatch",
      "location": "Nascondiglio Rocket B4F (Celadon) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-dark.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-dark.png",
+     "pos": [
+      0.5175,
+      0.378
+     ]
     },
     {
      "id": "tm50",
      "uid": 177,
      "name": "TM50 Overheat",
      "location": "Cammino Vittoria 3F (Altopiano Blu) — a terra",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-fire.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-fire.png",
+     "pos": [
+      0.056,
+      0.062
+     ]
     },
     {
      "id": "f179",
      "uid": 178,
      "name": "Poke Ball",
      "location": "Foresta di Smeraldo (Viridian Forest) — vicolo erboso a NO dell'ingresso sud",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png",
+     "pos": [
+      0.534,
+      0.4643
+     ]
     },
     {
      "id": "f180",
      "uid": 179,
      "name": "Antidote",
      "location": "Foresta di Smeraldo (Viridian Forest) — area NE, oltre il cartello",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/antidote.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/antidote.png",
+     "pos": [
+      0.491,
+      0.5064
+     ]
     },
     {
      "id": "f181",
      "uid": 180,
      "name": "Potion",
      "location": "Foresta di Smeraldo (Viridian Forest) — erba a est dell'ingresso sud",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/potion.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/potion.png",
+     "pos": [
+      0.5125,
+      0.5064
+     ]
     },
     {
      "id": "f182",
      "uid": 181,
      "name": "Potion",
      "location": "Foresta di Smeraldo (Viridian Forest) — vicolo cieco a SE dell'uscita nord",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/potion.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/potion.png",
+     "pos": [
+      0.534,
+      0.5064
+     ]
     }
    ]
   },
@@ -5352,14 +6056,22 @@
      "id": "g1",
      "uid": 0,
      "name": "Running Shoes",
-     "location": "Pewter City — dono dell'assistente di Oak (dopo Brock)"
+     "location": "Pewter City — dono dell'assistente di Oak (dopo Brock)",
+     "pos": [
+      0.1645,
+      0.167
+     ]
     },
     {
      "id": "g2",
      "uid": 1,
      "name": "Old Amber",
      "location": "Pewter City — Museo, dallo Scienziato (serve Taglio)",
-     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/old-amber.png"
+     "iconUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/old-amber.png",
+     "pos": [
+      0.1755,
+      0.167
+     ]
     }
    ]
   },
