@@ -635,6 +635,20 @@ const INTERIORS=[
  {id:"dgp", img:"DIGLETT_CAVE_1F_PEWTER_CITY.png", label:"Diglett's Cave (Pewter)", x:0.57, y:1.1541, w:0.06, ar:0.667, from:[0.17,0.16]},
  {id:"dgb", img:"DIGLETT_CAVE_1BF.png", label:"Diglett's Cave B1F", x:0.648, y:1.1541, w:0.15, ar:0.929, from:"dgp"},
  {id:"dgv", img:"DIGLETT_CAVE_1F_VERMILION_CITY.png", label:"Diglett's Cave (Vermilion)", x:0.816, y:1.1541, w:0.06, ar:0.667, from:"dgb"},
+ {id:"rt1", img:"ROCK_TUNNEL_F1.png", label:"Rock Tunnel 1F", x:0.045, y:1.32, w:0.085, ar:0.823, from:[0.86,0.26]},
+ {id:"rtb1", img:"ROCK_TUNNEL_BF1.png", label:"Rock Tunnel B1F", x:0.148, y:1.32, w:0.085, ar:0.823, from:"rt1"},
+ {id:"rh1", img:"ROCKET_HIDEOUT_1BF.png", label:"Nascond. Rocket B1F", x:0.251, y:1.32, w:0.06, ar:1.241, from:[0.49,0.35]},
+ {id:"rhb2", img:"ROCKET_HIDEOUT_BF2.png", label:"Nascond. Rocket B2F", x:0.329, y:1.32, w:0.075, ar:0.723, from:"rh1"},
+ {id:"rhb3", img:"ROCKET_HIDEOUT_BF3.png", label:"Nascond. Rocket B3F", x:0.422, y:1.32, w:0.055, ar:1.273, from:"rhb2"},
+ {id:"rhb4", img:"ROCKET_HIDEOUT_BF4.png", label:"Nascond. Rocket B4F", x:0.495, y:1.32, w:0.06, ar:1.125, from:"rhb3"},
+ {id:"ssdock", img:"S_S_ANNA_DOCK.png", label:"S.S. Anne — Molo", x:0.573, y:1.32, w:0.14, ar:0.271, from:[0.545,0.8]},
+ {id:"ss1", img:"S_S_ANNA_1F.png", label:"S.S. Anne 1F", x:0.731, y:1.32, w:0.08, ar:0.677, from:"ssdock"},
+ {id:"ss2", img:"S_S_ANNA_2F.png", label:"S.S. Anne 2F", x:0.829, y:1.32, w:0.085, ar:0.5, from:"ss1"},
+ {id:"ss3", img:"S_S_ANNA_3F.png", label:"S.S. Anne 3F", x:0.045, y:1.4139, w:0.07, ar:0.455, from:"ss2"},
+ {id:"ssb1", img:"S_S_ANNA_B1F.png", label:"S.S. Anne B1F", x:0.133, y:1.4139, w:0.075, ar:0.326, from:"ss1"},
+ {id:"sskit", img:"S_S_ANNA_KITCHEN_1F.png", label:"S.S. Anne — Cucina", x:0.226, y:1.4139, w:0.05, ar:0.938, from:"ss1"},
+ {id:"sscap", img:"S_S_ANNA_CAPTAINS_ROOM_1F.png", label:"S.S. Anne — Capitano", x:0.294, y:1.4139, w:0.045, ar:1.188, from:"ss1"},
+ {id:"ssdeck", img:"S_S_ANNA_DECK.png", label:"S.S. Anne — Ponte", x:0.357, y:1.4139, w:0.07, ar:0.655, from:"ss1"},
 ];
 const SVGNS="http://www.w3.org/2000/svg";
 function renderInteriors(){
