@@ -150,21 +150,18 @@
   .viewport.grabbing{cursor:grabbing}
   .canvas{position:absolute; left:0; top:0; transform-origin:0 0; will-change:transform}
   .canvas img{display:block; max-width:none; image-rendering:pixelated; user-select:none; -webkit-user-drag:none}
-  .markers{position:absolute; inset:0; overflow:hidden; pointer-events:none}
+  .markers{position:absolute; inset:0; pointer-events:none; z-index:5; --ic:24px}
   .pin{position:absolute; transform:translate(-50%,-50%); pointer-events:auto; cursor:pointer;
-       display:flex; flex-wrap:wrap; align-items:center; gap:2px; max-width:118px;
-       padding:3px; border-radius:9px; background:rgba(20,17,15,.82); border:1px solid var(--line); backdrop-filter:blur(2px)}
-  .pin:hover{border-color:var(--fire); z-index:20}
-  .pin .ic{width:20px; height:20px; object-fit:contain; image-rendering:pixelated; display:block}
-  .pin .ic.ph{width:14px; height:14px; border-radius:50%; border:1.5px solid #1c1916}
-  .pin .more{font:600 10px/1 ui-monospace,Menlo,monospace; color:var(--text); padding:0 3px}
-  .pin.done{opacity:.32}
-  .pin.single{cursor:pointer}
-  .pin.single.done .ic{filter:grayscale(1) opacity(.85)}
-  .pin .tag{position:absolute; top:-8px; left:50%; transform:translateX(-50%);
-       font:700 9px/1 ui-monospace,Menlo,monospace; color:#0e1a0f; background:var(--leaf);
-       padding:2px 5px; border-radius:99px; white-space:nowrap; opacity:0; transition:opacity .12s; pointer-events:none}
-  .pin:hover .tag{opacity:1}
+       display:flex; align-items:center; justify-content:center}
+  .pin .ic{width:var(--ic); height:var(--ic); object-fit:contain; image-rendering:pixelated; display:block;
+       filter:drop-shadow(0 0 1.5px rgba(0,0,0,.95)) drop-shadow(0 1px 1px rgba(0,0,0,.6))}
+  .pin .ic.ph{width:calc(var(--ic) * .7); height:calc(var(--ic) * .7); border-radius:50%; border:2px solid rgba(0,0,0,.6); filter:none}
+  .pin .more{font:700 14px/1 ui-monospace,Menlo,monospace; color:#fff; padding:0 2px; text-shadow:0 0 3px #000}
+  .pin.done{opacity:.3}
+  .pin.single.done .ic{filter:grayscale(1)}
+  .pin:hover{z-index:30}
+  .pin:hover .ic{outline:2px solid var(--fire); outline-offset:1px}
+  .pin.cluster{flex-wrap:wrap; gap:1px; max-width:130px; padding:2px; border-radius:6px; background:rgba(20,17,15,.5)}
 
   .zoomctl{position:absolute; left:10px; top:10px; display:flex; flex-direction:column; gap:6px; z-index:6}
   .zoomctl button{width:34px; height:34px; border-radius:8px; border:1px solid var(--line); background:rgba(20,17,15,.9); color:var(--text); font-size:18px; cursor:pointer; line-height:1}
@@ -266,8 +263,8 @@
           <div class="pickmark" id="pickMarker" hidden></div>
           <div class="canvas" id="canvas">
             <img id="mapImg" alt="Mappa di Kanto" />
+            <div class="markers" id="markers"></div>
           </div>
-          <div class="markers" id="markers"></div>
           <div class="map-empty" id="mapEmpty">
             Nessuna mappa caricata.<br>Scarica una mappa di Kanto (Bulbapedia / The Spriters Resource),
             mettila accanto a <code>index.html</code> come <code>kanto.png</code>,
@@ -671,9 +668,8 @@ function renderMarkers(){
   Object.keys(agg).forEach(k=>{
     const g=agg[k];
     const pin=document.createElement("div");
-    pin.className="pin"+(g.total>0 && g.done===g.total?" done":"");
-    pin.dataset.nx=LOC[k][0]; pin.dataset.ny=LOC[k][1];
-    // prefer not-yet-collected icons first
+    pin.className="pin cluster"+(g.total>0 && g.done===g.total?" done":"");
+    pin.style.left=(LOC[k][0]*imgW)+"px"; pin.style.top=(LOC[k][1]*imgH)+"px";
     const ordered=g.items.slice().sort((a,b)=>a.done-b.done);
     const shown=ordered.slice(0,MAX_ICONS);
     let html="";
@@ -682,7 +678,6 @@ function renderMarkers(){
       else html+=`<span class="ic ph" style="background:${it.color}"></span>`;
     });
     if(g.total>shown.length) html+=`<span class="more">+${g.total-shown.length}</span>`;
-    html+=`<span class="tag">${k} · ${g.done}/${g.total}</span>`;
     pin.innerHTML=html;
     pin.title=`${k}: ${g.done}/${g.total} completati`;
     pin.addEventListener("click",ev=>{ ev.stopPropagation();
@@ -694,28 +689,20 @@ function renderMarkers(){
   singles.forEach(s=>{
     const pin=document.createElement("div");
     pin.className="pin single"+(s.done?" done":"");
-    pin.dataset.nx=s.nx; pin.dataset.ny=s.ny;
-    if(s.src) pin.innerHTML=`<img class="ic" loading="lazy" alt="" src="${s.src}" style="${s.done?'filter:grayscale(1)':''}" onerror="this.classList.add('ph');this.removeAttribute('src');this.style.background='${s.color}'"><span class="tag">${esc(s.name)}</span>`;
-    else pin.innerHTML=`<span class="ic ph" style="background:${s.color}"></span><span class="tag">${esc(s.name)}</span>`;
+    pin.style.left=(s.nx*imgW)+"px"; pin.style.top=(s.ny*imgH)+"px";
+    if(s.src) pin.innerHTML=`<img class="ic" loading="lazy" alt="" src="${s.src}" style="${s.done?'filter:grayscale(1)':''}" onerror="this.classList.add('ph');this.removeAttribute('src');this.style.background='${s.color}'">`;
+    else pin.innerHTML=`<span class="ic ph" style="background:${s.color}"></span>`;
     pin.title=(s.done?"✓ ":"")+s.name+" — tocca per segnare ottenuto";
     pin.addEventListener("click",ev=>{ ev.stopPropagation();
       const el=document.querySelector('.item[data-key="'+(window.CSS&&CSS.escape?CSS.escape(s.key):s.key)+'"]');
-      if(el){ el.click(); }            // reuses checklist toggle → updates state, totals, and re-renders markers
+      if(el){ el.click(); }
       else { state.done[s.key]?delete state.done[s.key]:(state.done[s.key]=1); save(); renderMarkers(); }
     });
     layer.appendChild(pin);
   });
-  positionMarkers();
 }
 function positionMarkers(){
   if(!mapReady || !imgW) return;
-  const vw=document.getElementById("viewport").clientWidth, vh=document.getElementById("viewport").clientHeight;
-  document.querySelectorAll("#markers .pin").forEach(pin=>{
-    const nx=+pin.dataset.nx, ny=+pin.dataset.ny;
-    const x=panX+nx*imgW*zoom, y=panY+ny*imgH*zoom;
-    pin.style.left=x+"px"; pin.style.top=y+"px";
-    pin.style.display=(x<-60||x>vw+60||y<-60||y>vh+60)?"none":"flex";
-  });
   const pm=document.getElementById("pickMarker");
   if(pm && !pm.hidden && pm.dataset.nx!==undefined){
     pm.style.left=(panX+(+pm.dataset.nx)*imgW*zoom)+"px";
