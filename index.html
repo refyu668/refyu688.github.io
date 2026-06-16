@@ -169,6 +169,12 @@
   .zoomctl button:hover{border-color:var(--fire)}
   .zoomctl button.on{background:var(--fire); border-color:var(--fire)}
   .viewport.picking{cursor:crosshair}
+  .pickmark{position:absolute; width:20px; height:20px; transform:translate(-50%,-50%); z-index:8; pointer-events:none}
+  .pickmark::before,.pickmark::after{content:""; position:absolute; background:var(--fire)}
+  .pickmark::before{left:9px; top:0; width:2px; height:20px}
+  .pickmark::after{top:9px; left:0; height:2px; width:20px}
+  .coordbox .cp{margin-top:6px; padding:4px 8px; border-radius:7px; border:1px solid var(--line); background:var(--surface-2); color:var(--text); font:inherit; font-size:12px; cursor:pointer}
+  .coordbox .cp:hover{border-color:var(--fire)}
   .coordbox{position:absolute; right:10px; top:10px; z-index:7; max-width:230px;
        background:rgba(20,17,15,.94); border:1px solid var(--line); border-radius:9px; padding:9px 11px;
        font:12px/1.4 ui-monospace,Menlo,monospace; color:var(--text)}
@@ -186,6 +192,14 @@
   .settings label .sw{width:11px; height:11px; border-radius:3px; flex:0 0 auto}
   .settings input[type=checkbox]{accent-color:var(--leaf)}
 
+  .interior-box{position:absolute}
+  .interior-box img{display:block; width:100%; image-rendering:pixelated; border:3px solid rgba(227,73,47,.85); box-shadow:0 0 0 6px rgba(13,11,10,.55)}
+  .interior-label{position:absolute; left:0; top:0; transform:translateY(-115%); color:#fff;
+       background:rgba(20,17,15,.9); border:1px solid var(--line); padding:3px 10px; border-radius:7px;
+       font:700 50px/1 "Space Grotesk",system-ui; white-space:nowrap}
+  #connectors{position:absolute; left:0; top:0; pointer-events:none; overflow:visible}
+  #connectors .conn{stroke:#fff; stroke-width:11; stroke-dasharray:28 22; fill:none; opacity:.8}
+  #connectors .conndot{fill:var(--fire); stroke:#fff; stroke-width:5}
   .map-src{display:flex; flex-wrap:wrap; gap:8px; align-items:center; padding:10px 14px; border-top:1px solid var(--line); font-size:12.5px; color:var(--muted)}
   .map-src input[type=text]{flex:1; min-width:160px; padding:7px 9px; border-radius:8px; background:var(--surface-2); border:1px solid var(--line); color:var(--text); font:inherit}
   .map-src .lbl{cursor:pointer; padding:6px 10px; border-radius:8px; border:1px solid var(--line); background:var(--surface-2); color:var(--text)}
@@ -247,6 +261,7 @@
             <button id="pickBtn" title="Prendi coordinate (clicca un punto)" style="font-size:15px">📍</button>
           </div>
           <div class="coordbox" id="coordbox" hidden></div>
+          <div class="pickmark" id="pickMarker" hidden></div>
           <div class="canvas" id="canvas">
             <img id="mapImg" alt="Mappa di Kanto" />
           </div>
@@ -581,6 +596,55 @@ function entrySprite(catId, e){
   return null;
 }
 const MAX_ICONS=8;
+
+// ---- interiors (caves/forests) shown as blocks linked to their entrance ----
+// x,y = normalized top-left on the Kanto canvas; w = normalized width; ar = height/width of the image.
+// from = [nx,ny] overworld entrance point, or the id of another interior (to chain floors).
+const INTERIORS=[
+ {id:"vf",   img:"Pokemon-FireRed_LeafGreenVersions-ViridianForest.png",   label:"Foresta Smeraldo",  x:0.470,y:0.430,w:0.085,ar:1.2778, from:[0.17,0.33]},
+ {id:"cc1",  img:"Pokemon-FireRed_LeafGreenVersions-CeruleanCave-1F.png",  label:"Grotta Celeste 1F", x:0.470,y:0.550,w:0.085,ar:0.575,  from:[0.65,0.105]},
+ {id:"cc2",  img:"Pokemon-FireRed_LeafGreenVersions-CeruleanCave-2F.png",  label:"Grotta Celeste 2F", x:0.470,y:0.610,w:0.080,ar:0.6324, from:"cc1"},
+ {id:"ccb1", img:"Pokemon-FireRed_LeafGreenVersions-CeruleanCave-B1F.png", label:"Grotta Celeste B1F",x:0.470,y:0.668,w:0.085,ar:0.575,  from:"cc2"},
+ {id:"mm1",  img:"MT_MOON_F1.png", label:"Monte Luna 1F",  x:0.565,y:0.430,w:0.085,ar:0.8229, from:[0.40,0.18]},
+ {id:"mmb1", img:"MtMoon-B1F.png", label:"Monte Luna B1F", x:0.565,y:0.515,w:0.085,ar:0.4294, from:"mm1"},
+ {id:"mmb2", img:"MtMoon-B2F.png", label:"Monte Luna B2F", x:0.565,y:0.565,w:0.085,ar:0.8333, from:"mmb1"},
+];
+const SVGNS="http://www.w3.org/2000/svg";
+function renderInteriors(){
+  const canvas=document.getElementById("canvas");
+  canvas.querySelectorAll(".interior-box").forEach(n=>n.remove());
+  const old=document.getElementById("connectors"); if(old) old.remove();
+  if(!mapReady||!imgW) return;
+  const svg=document.createElementNS(SVGNS,"svg");
+  svg.id="connectors"; svg.setAttribute("width",imgW); svg.setAttribute("height",imgH);
+  svg.setAttribute("viewBox",`0 0 ${imgW} ${imgH}`);
+  canvas.appendChild(svg);
+  const rect={};
+  INTERIORS.forEach(it=>{
+    const wpx=it.w*imgW, hpx=wpx*it.ar, X=it.x*imgW, Y=it.y*imgH;
+    rect[it.id]={X,Y,wpx,hpx};
+    const box=document.createElement("div"); box.className="interior-box";
+    box.style.left=X+"px"; box.style.top=Y+"px"; box.style.width=wpx+"px";
+    const lab=document.createElement("div"); lab.className="interior-label"; lab.textContent=it.label;
+    const img=document.createElement("img"); img.src="./"+it.img; img.alt=it.label;
+    img.onerror=()=>{ box.style.display="none"; };
+    box.appendChild(lab); box.appendChild(img); canvas.appendChild(box);
+  });
+  INTERIORS.forEach(it=>{
+    const r=rect[it.id]; let sx,sy;
+    if(Array.isArray(it.from)){ sx=it.from[0]*imgW; sy=it.from[1]*imgH; }
+    else { const f=rect[it.from]; if(!f) return; sx=f.X+f.wpx/2; sy=f.Y+f.hpx; }
+    const ex=r.X+r.wpx/2, ey=r.Y;
+    const ln=document.createElementNS(SVGNS,"line");
+    ln.setAttribute("x1",sx); ln.setAttribute("y1",sy); ln.setAttribute("x2",ex); ln.setAttribute("y2",ey);
+    ln.setAttribute("class","conn"); svg.appendChild(ln);
+    if(Array.isArray(it.from)){
+      const c=document.createElementNS(SVGNS,"circle");
+      c.setAttribute("cx",sx); c.setAttribute("cy",sy); c.setAttribute("r",imgW*0.005); c.setAttribute("class","conndot");
+      svg.appendChild(c);
+    }
+  });
+}
 function validPos(p){ return Array.isArray(p)&&p.length===2&&typeof p[0]==="number"&&typeof p[1]==="number"&&p[0]>=0&&p[0]<=1&&p[1]>=0&&p[1]<=1; }
 function renderMarkers(){
   const layer=document.getElementById("markers"); layer.innerHTML="";
@@ -649,11 +713,16 @@ function positionMarkers(){
     pin.style.left=x+"px"; pin.style.top=y+"px";
     pin.style.display=(x<-60||x>vw+60||y<-60||y>vh+60)?"none":"flex";
   });
+  const pm=document.getElementById("pickMarker");
+  if(pm && !pm.hidden && pm.dataset.nx!==undefined){
+    pm.style.left=(panX+(+pm.dataset.nx)*imgW*zoom)+"px";
+    pm.style.top=(panY+(+pm.dataset.ny)*imgH*zoom)+"px";
+  }
 }
 
 function loadMapImage(src){
   const img=document.getElementById("mapImg"), empty=document.getElementById("mapEmpty");
-  img.onload=()=>{ mapReady=true; imgW=img.naturalWidth; imgH=img.naturalHeight; empty.style.display="none"; resetView(); renderMarkers(); };
+  img.onload=()=>{ mapReady=true; imgW=img.naturalWidth; imgH=img.naturalHeight; empty.style.display="none"; resetView(); renderInteriors(); renderMarkers(); };
   img.onerror=()=>{ mapReady=false; empty.style.display="flex"; renderMarkers(); };
   img.src=src;
 }
@@ -701,22 +770,31 @@ function initMap(){
     coordbox.hidden=!pickMode;
     if(pickMode) coordbox.innerHTML=`<b>Modalità coordinate</b><br><span class="small">Clicca un punto della mappa per ottenere <code>"pos":[x,y]</code> da incollare in un oggetto del JSON.</span>`;
   });
+  let lastPos="";
   function pickAt(clientX,clientY){
     const r=vp.getBoundingClientRect();
     const vx=clientX-r.left, vy=clientY-r.top;
     const nx=Math.min(1,Math.max(0,(vx-panX)/(imgW*zoom)));
     const ny=Math.min(1,Math.max(0,(vy-panY)/(imgH*zoom)));
-    const val=`[${nx.toFixed(4)}, ${ny.toFixed(4)}]`;
-    coordbox.innerHTML=`<b>"pos": ${val}</b><br><span class="small">copiato negli appunti · clicca un altro punto per aggiornare</span>`;
-    if(navigator.clipboard) navigator.clipboard.writeText(`"pos": ${val}`).catch(()=>{});
+    lastPos=`"pos": [${nx.toFixed(4)}, ${ny.toFixed(4)}]`;
+    // visual crosshair at the picked tile
+    const pm=document.getElementById("pickMarker");
+    pm.dataset.nx=nx; pm.dataset.ny=ny; pm.hidden=false; positionMarkers();
+    coordbox.innerHTML=`<b>${lastPos}</b><br><span class="small">incollalo nella voce dell'oggetto nel JSON.</span><button class="cp" id="cpBtn">Copia</button>`;
+    document.getElementById("cpBtn").addEventListener("click",()=>{ if(navigator.clipboard) navigator.clipboard.writeText(lastPos).catch(()=>{}); });
+    if(navigator.clipboard) navigator.clipboard.writeText(lastPos).catch(()=>{});
   }
 
-  // drag to pan (with click/drag discrimination for the picker)
-  let drag=false,sx=0,sy=0,ox=0,oy=0,moved=false;
-  vp.addEventListener("pointerdown",e=>{ drag=true; moved=false; vp.classList.add("grabbing"); sx=e.clientX; sy=e.clientY; ox=panX; oy=panY; vp.setPointerCapture(e.pointerId); });
-  vp.addEventListener("pointermove",e=>{ if(!drag)return; if(Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>5) moved=true; panX=ox+(e.clientX-sx); panY=oy+(e.clientY-sy); applyTransform(); });
-  vp.addEventListener("pointerup",e=>{ drag=false; vp.classList.remove("grabbing"); if(pickMode && !moved && mapReady) pickAt(e.clientX,e.clientY); });
-  vp.addEventListener("pointercancel",()=>{ drag=false; vp.classList.remove("grabbing"); });
+  // drag to pan; a clean click (no real movement) triggers the picker
+  let drag=false,sx=0,sy=0,ox=0,oy=0,moved=false,captured=false;
+  vp.addEventListener("pointerdown",e=>{ if(e.target.closest("button,.pin"))return; drag=true; moved=false; captured=false; sx=e.clientX; sy=e.clientY; ox=panX; oy=panY; });
+  vp.addEventListener("pointermove",e=>{ if(!drag)return;
+    if(!moved && Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>4){ moved=true; vp.classList.add("grabbing"); try{vp.setPointerCapture(e.pointerId);captured=true;}catch(_){} }
+    if(moved){ panX=ox+(e.clientX-sx); panY=oy+(e.clientY-sy); applyTransform(); } });
+  vp.addEventListener("pointerup",e=>{ if(!drag)return; drag=false; vp.classList.remove("grabbing");
+    if(captured){ try{vp.releasePointerCapture(e.pointerId);}catch(_){} captured=false; }
+    if(pickMode && !moved && mapReady) pickAt(e.clientX,e.clientY); });
+  vp.addEventListener("pointercancel",()=>{ drag=false; moved=false; vp.classList.remove("grabbing"); });
 
   // image source controls
   document.getElementById("mapUrlBtn").addEventListener("click",()=>{ const u=document.getElementById("mapUrl").value.trim(); if(u) loadMapImage(u); });
