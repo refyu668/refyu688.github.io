@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kanto Completionist Tracker</title>
+    <title>Kanto Completionist Tracker - Zoom & Pan</title>
     <style>
         body {
             margin: 0;
@@ -14,24 +14,71 @@
             background-color: #1a1a1a;
             color: #ffffff;
             overflow: hidden;
+            user-select: none; /* Impedisce la selezione del testo fastidiosa mentre si trascina la mappa */
         }
 
-        /* Contenitore Mappa a Sinistra */
+        /* AREA MAPPA (A SINISTRA) */
         #mappa-container {
             flex: 1;
-            overflow: auto;
+            overflow: hidden; /* Gestiamo lo scroll noi via codice per il trascinamento */
             position: relative;
-            background-color: #333; /* Grigio di sfondo se l'immagine carica lentamente */
-            min-width: 600px;
+            background-color: #252525;
+            cursor: grab; /* Icona a manina per far capire che si può trascinare */
         }
 
-        /* L'immagine di base di Kanto */
+        #mappa-container:active {
+            cursor: grabbing; /* Manina chiusa quando trascini */
+        }
+
+        /* Il Guscio che contiene mappa e marker e che viene zoomato/spostato */
+        #map-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: 0 0; /* Lo zoom parte dall'angolo in alto a sinistra */
+            will-change: transform;
+        }
+
         #mappa-kanto {
             display: block;
-            max-width: none; /* Impedisce al browser di rimpicciolire la mappa */
+            max-width: none;
+            pointer-events: none; /* Impedisce al browser di trascinare l'immagine come file */
         }
 
-        /* I Pallini (Marker) sulla Mappa */
+        /* I CONTROLLI DELLO ZOOM (+ e - sulla mappa) */
+        .zoom-controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            z-index: 100;
+        }
+
+        .zoom-btn {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(17, 17, 17, 0.85);
+            color: white;
+            border: 1px solid #444;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: 0.2s;
+        }
+
+        .zoom-btn:hover {
+            background-color: #ff3b30;
+            border-color: #ff3b30;
+        }
+
+        /* MARKER (PALLINI) */
         .marker {
             position: absolute;
             width: 28px;
@@ -42,28 +89,21 @@
             transform: translate(-50%, -50%);
             cursor: pointer;
             box-shadow: 0 0 10px rgba(0,0,0,0.7);
-            transition: all 0.2s ease-in-out;
+            transition: background-color 0.2s, opacity 0.2s;
             z-index: 10;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px; /* Dimensione dell'emoji dentro il pallino */
+            font-size: 14px;
         }
 
-        .marker:hover {
-            transform: translate(-50%, -50%) scale(1.3);
-            z-index: 20;
-            box-shadow: 0 0 15px rgba(255,255,255,0.5);
-        }
-
-        /* Quando l'oggetto è stato preso */
         .marker.preso {
             background-color: #4cd964 !important;
             opacity: 0.3;
             border-color: #111;
         }
 
-        /* Barra laterale a Destra */
+        /* BARRA LATERALE (A DESTRA) */
         #sidebar {
             width: 380px;
             min-width: 380px;
@@ -72,6 +112,7 @@
             overflow-y: auto;
             box-sizing: border-box;
             border-left: 2px solid #444;
+            z-index: 10;
         }
 
         h2 {
@@ -93,18 +134,9 @@
             transition: 0.2s;
         }
 
-        .oggetto-row:hover {
-            background-color: #333;
-        }
-
-        .oggetto-row.preso {
-            opacity: 0.4;
-        }
-        
-        .oggetto-row.preso .nome-oggetto {
-            text-decoration: line-through;
-            color: #aaa;
-        }
+        .oggetto-row:hover { background-color: #333; }
+        .oggetto-row.preso { opacity: 0.4; }
+        .oggetto-row.preso .nome-oggetto { text-decoration: line-through; color: #aaa; }
 
         .checkbox {
             width: 20px;
@@ -119,16 +151,8 @@
             flex-shrink: 0;
         }
 
-        .oggetto-row.preso .checkbox {
-            background: #4cd964;
-            border-color: #4cd964;
-        }
-
-        .oggetto-row.preso .checkbox::after {
-            content: "✓";
-            color: #111;
-            font-weight: bold;
-        }
+        .oggetto-row.preso .checkbox { background: #4cd964; border-color: #4cd964; }
+        .oggetto-row.preso .checkbox::after { content: "✓"; color: #111; font-weight: bold; }
 
         .icona-oggetto {
             width: 32px;
@@ -143,21 +167,9 @@
             flex-shrink: 0;
         }
 
-        .info-oggetto {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .nome-oggetto {
-            font-weight: bold;
-            font-size: 15px;
-        }
-
-        .categoria-oggetto {
-            font-size: 12px;
-            color: #888;
-            margin-top: 4px;
-        }
+        .info-oggetto { display: flex; flex-direction: column; }
+        .nome-oggetto { font-weight: bold; font-size: 15px; }
+        .categoria-oggetto { font-size: 12px; color: #888; margin-top: 4px; }
         
         #btn-reset {
             width: 100%;
@@ -170,13 +182,19 @@
             margin-bottom: 20px;
             font-weight: bold;
         }
-        #btn-reset:hover { background: #d32f2f; }
     </style>
 </head>
 <body>
 
     <div id="mappa-container">
-        <img id="mappa-kanto" src="kanto.png" alt="Caricamento mappa in corso... Assicurati che kanto.png sia in questa cartella.">
+        <div class="zoom-controls">
+            <button class="zoom-btn" id="zoom-in">+</button>
+            <button class="zoom-btn" id="zoom-out">−</button>
+        </div>
+        
+        <div id="map-wrapper">
+            <img id="mappa-kanto" src="kanto.png" alt="Mappa di Kanto">
+            </div>
     </div>
 
     <div id="sidebar">
@@ -186,93 +204,51 @@
     </div>
 
     <script>
-        // DATI DI TEST (Usa le coordinate lette dalla tua mappa con la griglia!)
-        // Ho aggiunto un'emoji simbolica per far funzionare la grafica anche senza file .png esterni
+        // DATABASE OGGETTI (Sempre modificabili con le tue coordinate reali)
         const databaseOggetti = [
-            {
-                id: "item_001",
-                categoria: "Strumento",
-                nome: "Pozione (Biancavilla)",
-                x: 230, 
-                y: 840, 
-                emoji: "🎒"
-            },
-            {
-                id: "item_002",
-                categoria: "Bacca",
-                nome: "Bacca Ciliegia (Percorso 3)",
-                x: 520,
-                y: 240,
-                opacity: 1,
-                emoji: "🍒"
-            },
-            {
-                id: "trainer_001",
-                categoria: "Allenatore",
-                nome: "Bullo Gianni",
-                x: 440,
-                y: 350,
-                emoji: "⚔️"
-            }
+            { id: "item_001", categoria: "Strumento", nome: "Pozione (Biancavilla)", x: 230, y: 840, emoji: "🎒" },
+            { id: "item_002", categoria: "Bacca", nome: "Bacca Ciliegia (Percorso 3)", x: 520, y: 240, emoji: "🍒" },
+            { id: "trainer_001", categoria: "Allenatore", nome: "Bullo Gianni", x: 440, y: 350, emoji: "⚔️" }
         ];
 
         let progressiSalvati = JSON.parse(localStorage.getItem('trackerKantoProgressi')) || {};
         const mappaContainer = document.getElementById('mappa-container');
+        const mapWrapper = document.getElementById('map-wrapper');
         const listaContainer = document.getElementById('lista-oggetti');
 
-        function renderizzaTutto() {
-            // Rimuove i vecchi marker per non duplicarli
-            document.querySelectorAll('.marker').forEach(e => e.remove());
-            listaContainer.innerHTML = '';
+        // VARIABLES PER ZOOM E TRASCINAMENTO (PAN)
+        let scale = 1;
+        const MIN_SCALE = 0.4;
+        const MAX_SCALE = 3;
+        let isDragging = false;
+        let startX, startY;
+        let translateX = 0, translateY = 0;
 
-            databaseOggetti.forEach(oggetto => {
-                const isPreso = progressiSalvati[oggetto.id] === true;
-
-                // 1. Crea il marker sulla mappa
-                const marker = document.createElement('div');
-                marker.className = `marker ${isPreso ? 'preso' : ''}`;
-                marker.style.left = `${oggetto.x}px`;
-                marker.style.top = `${oggetto.y}px`;
-                marker.innerHTML = oggetto.emoji; // Inserisce l'emoji nel cerchio
-                marker.title = oggetto.nome;
-                
-                // 2. Crea l'elemento nella lista laterale
-                const riga = document.createElement('div');
-                riga.className = `oggetto-row ${isPreso ? 'preso' : ''}`;
-                riga.innerHTML = `
-                    <div class="checkbox"></div>
-                    <div class="icona-oggetto">${oggetto.emoji}</div>
-                    <div class="info-oggetto">
-                        <div class="nome-oggetto">${oggetto.nome}</div>
-                        <div class="categoria-oggetto">${oggetto.categoria} (X: ${oggetto.x}, Y: ${oggetto.y})</div>
-                    </div>
-                `;
-
-                // Interattività al click
-                const toggleStato = () => {
-                    progressiSalvati[oggetto.id] = !progressiSalvati[oggetto.id];
-                    localStorage.setItem('trackerKantoProgressi', JSON.stringify(progressiSalvati));
-                    renderizzaTutto();
-                };
-
-                marker.addEventListener('click', toggleStato);
-                riga.addEventListener('click', toggleStato);
-
-                mappaContainer.appendChild(marker);
-                listaContainer.appendChild(riga);
-            });
+        // Funzione per aggiornare graficamente la posizione e lo zoom del wrapper mappa
+        function applicaTrasformazioni() {
+            mapWrapper.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
         }
 
-        document.getElementById('btn-reset').addEventListener('click', () => {
-            if(confirm("Azzerare tutti i progressi?")) {
-                progressiSalvati = {};
-                localStorage.removeItem('trackerKantoProgressi');
-                renderizzaTutto();
-            }
+        // === LOGICA DI TRASCINAMENTO (PAN) ===
+        mappaContainer.addEventListener('mousedown', (e) => {
+            // Si attiva il trascinamento solo se non si clicca su un marker o pulsante
+            if (e.target.classList.contains('marker') || e.target.classList.contains('zoom-btn')) return;
+            isDragging = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
         });
 
-        // Avvio iniziale
-        renderizzaTutto();
-    </script>
-</body>
-</html>
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            applicaTrasformazioni();
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // === LOGICA DI ZOOM (PULSANTI E ROTELLA) ===
+        function eseguiZoom(zoomIn,clientX, clientY) {
+            const zoomFactor = 0.15
