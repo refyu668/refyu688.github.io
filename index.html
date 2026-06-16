@@ -1,294 +1,109 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kanto Completionist Tracker - Con Filtri</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1a1a1a;
-            color: #ffffff;
-            overflow: hidden;
-            user-select: none;
-        }
-
-        /* AREA MAPPA (A SINISTRA) */
-        #mappa-container {
-            flex: 1;
-            overflow: hidden;
-            position: relative;
-            background-color: #252525;
-            cursor: grab;
-        }
-
-        #mappa-container:active { cursor: grabbing; }
-
-        #map-wrapper {
-            position: absolute;
-            top: 0;
-            left: 0;
-            transform-origin: 0 0;
-            will-change: transform;
-        }
-
-        #mappa-kanto {
-            display: block;
-            max-width: none;
-            pointer-events: none;
-        }
-
-        /* CONTROLLI ZOOM */
-        .zoom-controls {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            z-index: 100;
-        }
-
-        .zoom-btn {
-            width: 40px;
-            height: 40px;
-            background-color: rgba(17, 17, 17, 0.85);
-            color: white;
-            border: 1px solid #444;
-            border-radius: 8px;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            transition: 0.2s;
-        }
-        .zoom-btn:hover { background-color: #ff3b30; border-color: #ff3b30; }
-
-        /* MARKER (PALLINI) */
-        .marker {
-            position: absolute;
-            width: 28px;
-            height: 28px;
-            background-color: #ff3b30;
-            border: 2px solid white;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0,0,0,0.7);
-            transition: opacity 0.2s, transform 0.2s;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-        }
-        .marker.nascosto { background-color: #ffcc00; color: #111; }
-        .marker.macchina { background-color: #007aff; }
-        .marker.preso { background-color: #4cd964 !important; opacity: 0.15; border-color: #111; z-index: 1; }
-
-        /* BARRA LATERALE (A DESTRA) */
-        #sidebar {
-            width: 400px;
-            min-width: 400px;
-            background-color: #111;
-            padding: 20px;
-            overflow-y: auto;
-            box-sizing: border-box;
-            border-left: 2px solid #444;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-        }
-
-        h2 { margin-top: 0; padding-bottom: 10px; border-bottom: 1px solid #333; color: #ffcc00; }
-
-        /* SEZIONE FILTRI (STILE CONCEPT UPLOADATO) */
-        .filtri-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #222;
-        }
-
-        .filtro-btn {
-            background-color: #222;
-            color: #ccc;
-            border: 1px solid #333;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 500;
-        }
-
-        .filtro-btn:hover { background-color: #333; color: white; }
-        .filtro-btn.attivo { background-color: #ffcc00; color: #111; border-color: #ffcc00; font-weight: bold; }
-
-        /* LISTA ELEMENTI */
-        #lista-oggetti { flex: 1; }
-
-        .oggetto-row {
-            display: flex;
-            align-items: center;
-            background-color: #1e1e1e;
-            padding: 12px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            cursor: pointer;
-            border: 1px solid #2a2a2a;
-            transition: 0.2s;
-        }
-        .oggetto-row:hover { background-color: #2a2a2a; }
-        .oggetto-row.preso { opacity: 0.4; }
-        .oggetto-row.preso .nome-oggetto { text-decoration: line-through; color: #aaa; }
-
-        .checkbox {
-            width: 18px;
-            height: 18px;
-            border: 2px solid #555;
-            border-radius: 4px;
-            margin-right: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #111;
-            flex-shrink: 0;
-        }
-        .oggetto-row.preso .checkbox { background: #4cd964; border-color: #4cd964; }
-        .oggetto-row.preso .checkbox::after { content: "✓"; color: #111; font-weight: bold; font-size: 12px; }
-
-        .icona-oggetto {
-            width: 32px;
-            height: 32px;
-            background-color: #2a2a2a;
-            border-radius: 6px;
-            margin-right: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .info-oggetto { display: flex; flex-direction: column; }
-        .nome-oggetto { font-weight: bold; font-size: 14px; }
-        .categoria-oggetto { font-size: 11px; color: #888; margin-top: 3px; }
-        
-        #btn-reset {
-            width: 100%;
-            padding: 8px;
-            background: #ff3b30;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-bottom: 15px;
-            font-weight: bold;
-            font-size: 13px;
-        }
-    </style>
-</head>
-<body>
-
-    <div id="mappa-container">
-        <div class="zoom-controls">
-            <button class="zoom-btn" id="zoom-in">+</button>
-            <button class="zoom-btn" id="zoom-out">−</button>
-        </div>
-        <div id="map-wrapper">
-            <img id="mappa-kanto" src="kanto.png" alt="Mappa di Kanto">
-        </div>
-    </div>
-
-    <div id="sidebar">
-        <h2>Tracker di Kanto</h2>
-        <button id="btn-reset">Reset Progressi</button>
-        
-        <div class="filtri-container" id="filtri-barra">
-            <button class="filtro-btn attivo" onclick="cambiaFiltro('Tutti')">Tutti</button>
-            <button class="filtro-btn" onclick="cambiaFiltro('Strumento')">Strumenti</button>
-            <button class="filtro-btn" onclick="cambiaFiltro('Oggetto Nascosto')">Nascosti</button>
-            <button class="filtro-btn" onclick="cambiaFiltro('Macchina Tecnica')">MT/MN</button>
-            <button class="filtro-btn" onclick="cambiaFiltro('Bacca')">Bacche</button>
-            <button class="filtro-btn" onclick="cambiaFiltro('Allenatore')">Allenatori</button>
-        </div>
-
-        <div id="lista-oggetti"></div>
-    </div>
-
-    <script>
-        // Database esteso con la nuova categoria "Macchina Tecnica" per farti vedere il funzionamento
-        const databaseOggetti = [
-          { "id": "b_potion_01", "categoria": "Strumento", "nome": "Pozione (Ritiro PC)", "x": 230, "y": 840, "emoji": "🎒" },
-          { "id": "p1_potion_01", "categoria": "Strumento", "nome": "Pozione (Regalo)", "x": 230, "y": 760, "emoji": "🎒" },
-          { "id": "sm_potion_01", "categoria": "Strumento", "nome": "Pozione (Visibile)", "x": 250, "y": 660, "emoji": "🎒" },
-          { "id": "sm_hidden_potion", "categoria": "Oggetto Nascosto", "nome": "Pozione Nascosta", "x": 210, "y": 620, "emoji": "✨" },
-          { "id": "p2_potion_01", "categoria": "Strumento", "nome": "Pozione", "x": 220, "y": 540, "emoji": "🎒" },
-          { "id": "p2_antidote_01", "categoria": "Strumento", "nome": "Antidoto", "x": 240, "y": 510, "emoji": "🎒" },
-          { "id": "p2_hidden_ether", "categoria": "Oggetto Nascosto", "nome": "Etere Nascosto", "x": 250, "y": 480, "emoji": "✨" },
-          { "id": "p2_hpup_01", "categoria": "Strumento", "nome": "PS Su", "x": 280, "y": 530, "emoji": "🎒" },
-          { "id": "p2_firestone_01", "categoria": "Strumento", "nome": "Pietra focaia", "x": 290, "y": 560, "emoji": "🎒" },
-          { "id": "pl_hidden_pokeball", "categoria": "Oggetto Nascosto", "nome": "Poké Ball Nascosta", "x": 210, "y": 360, "emoji": "✨" },
-          { "id": "p3_berry_01", "categoria": "Bacca", "nome": "Bacca Ciliegia", "x": 420, "y": 380, "emoji": "🍒" },
-          { "id": "p3_berry_02", "categoria": "Bacca", "nome": "Bacca Castagna", "x": 440, "y": 380, "emoji": "🍒" },
-          { "id": "p4_tm05", "categoria": "Macchina Tecnica", "nome": "MT05 (Boato)", "x": 510, "y": 340, "emoji": "💿" },
-          { "id": "p4_hidden_greatball", "categoria": "Oggetto Nascosto", "nome": "Mega Ball Nascosta", "x": 560, "y": 330, "emoji": "✨" },
-          { "id": "p4_hidden_ultraball", "categoria": "Oggetto Nascosto", "nome": "Ultra Ball Nascosta", "x": 640, "y": 310, "emoji": "✨" },
-          { "id": "p4_tm46", "categoria": "Macchina Tecnica", "nome": "MT46 (Furto)", "x": 670, "y": 310, "emoji": "💿" },
-          { "id": "cl_hidden_rare_candy", "categoria": "Oggetto Nascosto", "nome": "Caramella Rara Nascosta", "x": 750, "y": 280, "emoji": "✨" },
-          { "id": "p24_nugget", "categoria": "Strumento", "nome": "Pepita (Ponte)", "x": 730, "y": 180, "emoji": "🎒" },
-          { "id": "p25_tm45", "categoria": "Macchina Tecnica", "nome": "MT45 (Attrazione)", "x": 820, "y": 130, "emoji": "💿" },
-          { "id": "p11_tm39", "categoria": "Macchina Tecnica", "nome": "MT39 (Comete)", "x": 910, "y": 780, "emoji": "💿" },
-          { "id": "trainer_01", "categoria": "Allenatore", "nome": "Bullo Gianni", "x": 450, "y": 350, "emoji": "⚔️" }
-        ];
-
+<script>
+        let databaseOggetti = [];
         let progressiSalvati = JSON.parse(localStorage.getItem('trackerKantoProgressi')) || {};
-        let filtroCorrente = 'Tutti'; // Stato del filtro selezionato
+        let filtroCorrente = 'Tutti';
 
         const mappaContainer = document.getElementById('mappa-container');
         const mapWrapper = document.getElementById('map-wrapper');
         const listaContainer = document.getElementById('lista-oggetti');
 
-        // ZOOM & TRASCINAMENTO
-        let scale = 1, isDragging = false, startX, startY, translateX = 0, translateY = 0;
-        function applicaTrasformazioni() { mapWrapper.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`; }
-        
-        mappaContainer.addEventListener('mousedown', (e) => {
-            if (e.target.classList.contains('marker') || e.target.classList.contains('zoom-btn')) return;
-            isDragging = true; startX = e.clientX - translateX; startY = e.clientY - translateY;
-        });
-        window.addEventListener('mousemove', (e) => { if (!isDragging) return; translateX = e.clientX - startX; translateY = e.clientY - startY; applicaTrasformazioni(); });
-        window.addEventListener('mouseup', () => { isDragging = false; });
-        function eseguiZoom(zoomIn, clientX, clientY) {
-            const zoomFactor = 0.15, vecchiaScala = scale;
-            scale = zoomIn ? Math.min(3, scale + zoomFactor) : Math.max(0.4, scale - zoomFactor);
-            if(clientX !== undefined && clientY !== undefined) {
-                const rect = mappaContainer.getBoundingClientRect();
-                const mouseX = clientX - rect.left, mouseY = clientY - rect.top;
-                translateX = mouseX - (mouseX - translateX) * (scale / vecchiaScala); translateY = mouseY - (mouseY - translateY) * (scale / vecchiaScala);
+        // FUNZIONE DI CARICAMENTO FILE JSON MULTIPLI
+        async function inizializzaDatabase() {
+            try {
+                const [rispostaStrumenti, rispostaPokemon] = await Promise.all([
+                    fetch('collezionabili.json').then(res => res.ok ? res.json() : []),
+                    fetch('pokemon.json').then(res => res.ok ? res.json() : [])
+                ]);
+                databaseOggetti = [...rispostaStrumenti, ...rispostaPokemon];
+                renderizzaTutto();
+            } catch (errore) {
+                console.error("Errore nel caricamento dei database JSON:", errore);
             }
+        }
+
+        // --------------------------------------------------------
+        // NUOVA LOGICA DI ZOOM & TRASCINAMENTO MAPPA
+        // --------------------------------------------------------
+        let scale = 1, isDragging = false, startX, startY, translateX = 0, translateY = 0;
+        
+        function applicaTrasformazioni() { 
+            mapWrapper.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`; 
+        }
+        
+        // Trascinamento (Pan)
+        mappaContainer.addEventListener('mousedown', (e) => {
+            if (e.target.classList.contains('marker') || e.target.closest('.zoom-controls')) return;
+            isDragging = true; 
+            startX = e.clientX - translateX; 
+            startY = e.clientY - translateY;
+        });
+        
+        window.addEventListener('mousemove', (e) => { 
+            if (!isDragging) return; 
+            translateX = e.clientX - startX; 
+            translateY = e.clientY - startY; 
+            applicaTrasformazioni(); 
+        });
+        
+        window.addEventListener('mouseup', () => { isDragging = false; });
+
+        // Zoom Fluido
+        function eseguiZoom(zoomIn, clientX, clientY) {
+            const zoomStep = 1.25; // Fattore moltiplicativo per uno zoom più naturale
+            const vecchiaScala = scale;
+            
+            // Applica il nuovo zoom con limiti espansi (min 0.1, max 5)
+            if (zoomIn) {
+                scale = Math.min(5, scale * zoomStep);
+            } else {
+                scale = Math.max(0.1, scale / zoomStep);
+            }
+            
+            // Calcola il punto focale verso cui zoomare
+            let focalX, focalY;
+            const rect = mappaContainer.getBoundingClientRect();
+
+            if (clientX !== undefined && clientY !== undefined) {
+                // Zoom tramite rotellina: focalizzato sul puntatore del mouse
+                focalX = clientX - rect.left;
+                focalY = clientY - rect.top;
+            } else {
+                // Zoom tramite pulsanti: focalizzato al centro esatto del container
+                focalX = rect.width / 2;
+                focalY = rect.height / 2;
+            }
+
+            // Aggiusta la traslazione per mantenere fisso il punto focale
+            translateX = focalX - (focalX - translateX) * (scale / vecchiaScala);
+            translateY = focalY - (focalY - translateY) * (scale / vecchiaScala);
+            
             applicaTrasformazioni();
         }
+
+        // Event Listeners per lo Zoom
         document.getElementById('zoom-in').addEventListener('click', () => eseguiZoom(true));
         document.getElementById('zoom-out').addEventListener('click', () => eseguiZoom(false));
-        mappaContainer.addEventListener('wheel', (e) => { e.preventDefault(); eseguiZoom(e.deltaY < 0, e.clientX, e.clientY); }, { passive: false });
+        mappaContainer.addEventListener('wheel', (e) => { 
+            e.preventDefault(); 
+            eseguiZoom(e.deltaY < 0, e.clientX, e.clientY); 
+        }, { passive: false });
 
-        // CAMBIO FILTRO AD ALBERO
+        // TOOL COORDINATE SULLA CONSOLE
+        mappaContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('marker') || e.target.closest('.zoom-controls')) return;
+            const rect = mapWrapper.getBoundingClientRect();
+            const xReale = Math.round((e.clientX - rect.left) / scale);
+            const yReale = Math.round((e.clientY - rect.top) / scale);
+            console.log(`{ "id": "poke_XXX", "categoria": "Pokémon", "nome": "NOME", "x": ${xReale}, "y": ${yReale}, "sprite": "XXX.png" },`);
+        });
+
+        // --------------------------------------------------------
+        // LOGICA DEI FILTRI E RENDERING
+        // --------------------------------------------------------
         function cambiaFiltro(nuovoFiltro) {
             filtroCorrente = nuovoFiltro;
-            // Aggiorna la classe 'attivo' sui pulsanti grafici
             document.querySelectorAll('.filtro-btn').forEach(btn => {
-                if(btn.textContent.includes(nuovoFiltro) || (nuovoFiltro === 'Tutti' && btn.textContent === 'Tutti')) {
+                if(btn.textContent === nuovoFiltro || (nuovoFiltro === 'Tutti' && btn.textContent === 'Tutti')) {
                     btn.classList.add('attivo');
                 } else {
                     btn.classList.remove('attivo');
@@ -297,39 +112,43 @@
             renderizzaTutto();
         }
 
-        // DISEGNO INTERFACCIA CON FILTRAGGIO
         function renderizzaTutto() {
             document.querySelectorAll('.marker').forEach(e => e.remove());
             listaContainer.innerHTML = '';
 
             databaseOggetti.forEach(oggetto => {
-                // Se l'oggetto non appartiene alla categoria selezionata, lo saltiamo (ma lo mostriamo se il filtro è 'Tutti')
                 if (filtroCorrente !== 'Tutti' && oggetto.categoria !== filtroCorrente) return;
 
                 const isPreso = progressiSalvati[oggetto.id] === true;
 
-                // Calcolo classe specifica per colore marker
+                const contenutoIcona = oggetto.sprite 
+                    ? `<img src="${oggetto.sprite}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\'><text y=\'20\' font-size=\'20\'>❓</text></svg>'">` 
+                    : oggetto.emoji || "🎒";
+
                 let classeCategoria = '';
                 if(oggetto.categoria === "Oggetto Nascosto") classeCategoria = 'nascosto';
                 if(oggetto.categoria === "Macchina Tecnica") classeCategoria = 'macchina';
+                if(oggetto.categoria === "Pokémon") classeCategoria = 'pokemon';
 
-                // Crea marker
                 const marker = document.createElement('div');
                 marker.className = `marker ${classeCategoria} ${isPreso ? 'preso' : ''}`;
                 marker.style.left = `${oggetto.x}px`;
                 marker.style.top = `${oggetto.y}px`;
-                marker.innerHTML = oggetto.emoji;
+                marker.innerHTML = contenutoIcona;
                 marker.title = oggetto.nome;
+
+                if (oggetto.x === 0 && oggetto.y === 0) {
+                    marker.style.display = 'none';
+                }
                 
-                // Crea riga lista
                 const riga = document.createElement('div');
                 riga.className = `oggetto-row ${isPreso ? 'preso' : ''}`;
                 riga.innerHTML = `
                     <div class="checkbox"></div>
-                    <div class="icona-oggetto">${oggetto.emoji}</div>
+                    <div class="icona-oggetto">${contenutoIcona}</div>
                     <div class="info-oggetto">
                         <div class="nome-oggetto">${oggetto.nome}</div>
-                        <div class="categoria-oggetto">${oggetto.categoria}</div>
+                        <div class="categoria-oggetto">${oggetto.categoria} ${oggetto.x !== 0 ? `(${oggetto.x}, ${oggetto.y})` : '(Non Mappato)'}</div>
                     </div>
                 `;
 
@@ -348,12 +167,10 @@
         }
 
         document.getElementById('btn-reset').addEventListener('click', () => {
-            if(confirm("Azzerare i progressi?")) {
+            if(confirm("Azzerare tutti i progressi salvati?")) {
                 progressiSalvati = {}; localStorage.removeItem('trackerKantoProgressi'); renderizzaTutto();
             }
         });
 
-        renderizzaTutto();
+        inizializzaDatabase();
     </script>
-</body>
-</html>
