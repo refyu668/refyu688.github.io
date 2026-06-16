@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kanto Completionist Tracker - Zoom & Pan</title>
+    <title>Kanto Completionist Tracker - Con Filtri</title>
     <style>
         body {
             margin: 0;
@@ -14,38 +14,35 @@
             background-color: #1a1a1a;
             color: #ffffff;
             overflow: hidden;
-            user-select: none; /* Impedisce la selezione del testo fastidiosa mentre si trascina la mappa */
+            user-select: none;
         }
 
         /* AREA MAPPA (A SINISTRA) */
         #mappa-container {
             flex: 1;
-            overflow: hidden; /* Gestiamo lo scroll noi via codice per il trascinamento */
+            overflow: hidden;
             position: relative;
             background-color: #252525;
-            cursor: grab; /* Icona a manina per far capire che si può trascinare */
+            cursor: grab;
         }
 
-        #mappa-container:active {
-            cursor: grabbing; /* Manina chiusa quando trascini */
-        }
+        #mappa-container:active { cursor: grabbing; }
 
-        /* Il Guscio che contiene mappa e marker e che viene zoomato/spostato */
         #map-wrapper {
             position: absolute;
             top: 0;
             left: 0;
-            transform-origin: 0 0; /* Lo zoom parte dall'angolo in alto a sinistra */
+            transform-origin: 0 0;
             will-change: transform;
         }
 
         #mappa-kanto {
             display: block;
             max-width: none;
-            pointer-events: none; /* Impedisce al browser di trascinare l'immagine come file */
+            pointer-events: none;
         }
 
-        /* I CONTROLLI DELLO ZOOM (+ e - sulla mappa) */
+        /* CONTROLLI ZOOM */
         .zoom-controls {
             position: absolute;
             top: 20px;
@@ -72,11 +69,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             transition: 0.2s;
         }
-
-        .zoom-btn:hover {
-            background-color: #ff3b30;
-            border-color: #ff3b30;
-        }
+        .zoom-btn:hover { background-color: #ff3b30; border-color: #ff3b30; }
 
         /* MARKER (PALLINI) */
         .marker {
@@ -89,98 +82,119 @@
             transform: translate(-50%, -50%);
             cursor: pointer;
             box-shadow: 0 0 10px rgba(0,0,0,0.7);
-            transition: background-color 0.2s, opacity 0.2s;
+            transition: opacity 0.2s, transform 0.2s;
             z-index: 10;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 14px;
         }
-
-        .marker.preso {
-            background-color: #4cd964 !important;
-            opacity: 0.3;
-            border-color: #111;
-        }
+        .marker.nascosto { background-color: #ffcc00; color: #111; }
+        .marker.macchina { background-color: #007aff; }
+        .marker.preso { background-color: #4cd964 !important; opacity: 0.15; border-color: #111; z-index: 1; }
 
         /* BARRA LATERALE (A DESTRA) */
         #sidebar {
-            width: 380px;
-            min-width: 380px;
+            width: 400px;
+            min-width: 400px;
             background-color: #111;
             padding: 20px;
             overflow-y: auto;
             box-sizing: border-box;
             border-left: 2px solid #444;
             z-index: 10;
+            display: flex;
+            flex-direction: column;
         }
 
-        h2 {
-            margin-top: 0;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #333;
-            color: #ffcc00;
+        h2 { margin-top: 0; padding-bottom: 10px; border-bottom: 1px solid #333; color: #ffcc00; }
+
+        /* SEZIONE FILTRI (STILE CONCEPT UPLOADATO) */
+        .filtri-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #222;
         }
+
+        .filtro-btn {
+            background-color: #222;
+            color: #ccc;
+            border: 1px solid #333;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .filtro-btn:hover { background-color: #333; color: white; }
+        .filtro-btn.attivo { background-color: #ffcc00; color: #111; border-color: #ffcc00; font-weight: bold; }
+
+        /* LISTA ELEMENTI */
+        #lista-oggetti { flex: 1; }
 
         .oggetto-row {
             display: flex;
             align-items: center;
-            background-color: #222;
+            background-color: #1e1e1e;
             padding: 12px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             border-radius: 8px;
             cursor: pointer;
-            border: 1px solid #333;
+            border: 1px solid #2a2a2a;
             transition: 0.2s;
         }
-
-        .oggetto-row:hover { background-color: #333; }
+        .oggetto-row:hover { background-color: #2a2a2a; }
         .oggetto-row.preso { opacity: 0.4; }
         .oggetto-row.preso .nome-oggetto { text-decoration: line-through; color: #aaa; }
 
         .checkbox {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border: 2px solid #555;
             border-radius: 4px;
-            margin-right: 15px;
+            margin-right: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
             background: #111;
             flex-shrink: 0;
         }
-
         .oggetto-row.preso .checkbox { background: #4cd964; border-color: #4cd964; }
-        .oggetto-row.preso .checkbox::after { content: "✓"; color: #111; font-weight: bold; }
+        .oggetto-row.preso .checkbox::after { content: "✓"; color: #111; font-weight: bold; font-size: 12px; }
 
         .icona-oggetto {
             width: 32px;
             height: 32px;
-            background-color: #444;
-            border-radius: 4px;
-            margin-right: 15px;
+            background-color: #2a2a2a;
+            border-radius: 6px;
+            margin-right: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 16px;
             flex-shrink: 0;
         }
 
         .info-oggetto { display: flex; flex-direction: column; }
-        .nome-oggetto { font-weight: bold; font-size: 15px; }
-        .categoria-oggetto { font-size: 12px; color: #888; margin-top: 4px; }
+        .nome-oggetto { font-weight: bold; font-size: 14px; }
+        .categoria-oggetto { font-size: 11px; color: #888; margin-top: 3px; }
         
         #btn-reset {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             background: #ff3b30;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-weight: bold;
+            font-size: 13px;
         }
     </style>
 </head>
@@ -191,64 +205,155 @@
             <button class="zoom-btn" id="zoom-in">+</button>
             <button class="zoom-btn" id="zoom-out">−</button>
         </div>
-        
         <div id="map-wrapper">
             <img id="mappa-kanto" src="kanto.png" alt="Mappa di Kanto">
-            </div>
+        </div>
     </div>
 
     <div id="sidebar">
         <h2>Tracker di Kanto</h2>
         <button id="btn-reset">Reset Progressi</button>
+        
+        <div class="filtri-container" id="filtri-barra">
+            <button class="filtro-btn attivo" onclick="cambiaFiltro('Tutti')">Tutti</button>
+            <button class="filtro-btn" onclick="cambiaFiltro('Strumento')">Strumenti</button>
+            <button class="filtro-btn" onclick="cambiaFiltro('Oggetto Nascosto')">Nascosti</button>
+            <button class="filtro-btn" onclick="cambiaFiltro('Macchina Tecnica')">MT/MN</button>
+            <button class="filtro-btn" onclick="cambiaFiltro('Bacca')">Bacche</button>
+            <button class="filtro-btn" onclick="cambiaFiltro('Allenatore')">Allenatori</button>
+        </div>
+
         <div id="lista-oggetti"></div>
     </div>
 
     <script>
-        // DATABASE OGGETTI (Sempre modificabili con le tue coordinate reali)
+        // Database esteso con la nuova categoria "Macchina Tecnica" per farti vedere il funzionamento
         const databaseOggetti = [
-            { id: "item_001", categoria: "Strumento", nome: "Pozione (Biancavilla)", x: 230, y: 840, emoji: "🎒" },
-            { id: "item_002", categoria: "Bacca", nome: "Bacca Ciliegia (Percorso 3)", x: 520, y: 240, emoji: "🍒" },
-            { id: "trainer_001", categoria: "Allenatore", nome: "Bullo Gianni", x: 440, y: 350, emoji: "⚔️" }
+          { "id": "b_potion_01", "categoria": "Strumento", "nome": "Pozione (Ritiro PC)", "x": 230, "y": 840, "emoji": "🎒" },
+          { "id": "p1_potion_01", "categoria": "Strumento", "nome": "Pozione (Regalo)", "x": 230, "y": 760, "emoji": "🎒" },
+          { "id": "sm_potion_01", "categoria": "Strumento", "nome": "Pozione (Visibile)", "x": 250, "y": 660, "emoji": "🎒" },
+          { "id": "sm_hidden_potion", "categoria": "Oggetto Nascosto", "nome": "Pozione Nascosta", "x": 210, "y": 620, "emoji": "✨" },
+          { "id": "p2_potion_01", "categoria": "Strumento", "nome": "Pozione", "x": 220, "y": 540, "emoji": "🎒" },
+          { "id": "p2_antidote_01", "categoria": "Strumento", "nome": "Antidoto", "x": 240, "y": 510, "emoji": "🎒" },
+          { "id": "p2_hidden_ether", "categoria": "Oggetto Nascosto", "nome": "Etere Nascosto", "x": 250, "y": 480, "emoji": "✨" },
+          { "id": "p2_hpup_01", "categoria": "Strumento", "nome": "PS Su", "x": 280, "y": 530, "emoji": "🎒" },
+          { "id": "p2_firestone_01", "categoria": "Strumento", "nome": "Pietra focaia", "x": 290, "y": 560, "emoji": "🎒" },
+          { "id": "pl_hidden_pokeball", "categoria": "Oggetto Nascosto", "nome": "Poké Ball Nascosta", "x": 210, "y": 360, "emoji": "✨" },
+          { "id": "p3_berry_01", "categoria": "Bacca", "nome": "Bacca Ciliegia", "x": 420, "y": 380, "emoji": "🍒" },
+          { "id": "p3_berry_02", "categoria": "Bacca", "nome": "Bacca Castagna", "x": 440, "y": 380, "emoji": "🍒" },
+          { "id": "p4_tm05", "categoria": "Macchina Tecnica", "nome": "MT05 (Boato)", "x": 510, "y": 340, "emoji": "💿" },
+          { "id": "p4_hidden_greatball", "categoria": "Oggetto Nascosto", "nome": "Mega Ball Nascosta", "x": 560, "y": 330, "emoji": "✨" },
+          { "id": "p4_hidden_ultraball", "categoria": "Oggetto Nascosto", "nome": "Ultra Ball Nascosta", "x": 640, "y": 310, "emoji": "✨" },
+          { "id": "p4_tm46", "categoria": "Macchina Tecnica", "nome": "MT46 (Furto)", "x": 670, "y": 310, "emoji": "💿" },
+          { "id": "cl_hidden_rare_candy", "categoria": "Oggetto Nascosto", "nome": "Caramella Rara Nascosta", "x": 750, "y": 280, "emoji": "✨" },
+          { "id": "p24_nugget", "categoria": "Strumento", "nome": "Pepita (Ponte)", "x": 730, "y": 180, "emoji": "🎒" },
+          { "id": "p25_tm45", "categoria": "Macchina Tecnica", "nome": "MT45 (Attrazione)", "x": 820, "y": 130, "emoji": "💿" },
+          { "id": "p11_tm39", "categoria": "Macchina Tecnica", "nome": "MT39 (Comete)", "x": 910, "y": 780, "emoji": "💿" },
+          { "id": "trainer_01", "categoria": "Allenatore", "nome": "Bullo Gianni", "x": 450, "y": 350, "emoji": "⚔️" }
         ];
 
         let progressiSalvati = JSON.parse(localStorage.getItem('trackerKantoProgressi')) || {};
+        let filtroCorrente = 'Tutti'; // Stato del filtro selezionato
+
         const mappaContainer = document.getElementById('mappa-container');
         const mapWrapper = document.getElementById('map-wrapper');
         const listaContainer = document.getElementById('lista-oggetti');
 
-        // VARIABLES PER ZOOM E TRASCINAMENTO (PAN)
-        let scale = 1;
-        const MIN_SCALE = 0.4;
-        const MAX_SCALE = 3;
-        let isDragging = false;
-        let startX, startY;
-        let translateX = 0, translateY = 0;
+        // ZOOM & TRASCINAMENTO
+        let scale = 1, isDragging = false, startX, startY, translateX = 0, translateY = 0;
+        function applicaTrasformazioni() { mapWrapper.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`; }
+        
+        mappaContainer.addEventListener('mousedown', (e) => {
+            if (e.target.classList.contains('marker') || e.target.classList.contains('zoom-btn')) return;
+            isDragging = true; startX = e.clientX - translateX; startY = e.clientY - translateY;
+        });
+        window.addEventListener('mousemove', (e) => { if (!isDragging) return; translateX = e.clientX - startX; translateY = e.clientY - startY; applicaTrasformazioni(); });
+        window.addEventListener('mouseup', () => { isDragging = false; });
+        function eseguiZoom(zoomIn, clientX, clientY) {
+            const zoomFactor = 0.15, vecchiaScala = scale;
+            scale = zoomIn ? Math.min(3, scale + zoomFactor) : Math.max(0.4, scale - zoomFactor);
+            if(clientX !== undefined && clientY !== undefined) {
+                const rect = mappaContainer.getBoundingClientRect();
+                const mouseX = clientX - rect.left, mouseY = clientY - rect.top;
+                translateX = mouseX - (mouseX - translateX) * (scale / vecchiaScala); translateY = mouseY - (mouseY - translateY) * (scale / vecchiaScala);
+            }
+            applicaTrasformazioni();
+        }
+        document.getElementById('zoom-in').addEventListener('click', () => eseguiZoom(true));
+        document.getElementById('zoom-out').addEventListener('click', () => eseguiZoom(false));
+        mappaContainer.addEventListener('wheel', (e) => { e.preventDefault(); eseguiZoom(e.deltaY < 0, e.clientX, e.clientY); }, { passive: false });
 
-        // Funzione per aggiornare graficamente la posizione e lo zoom del wrapper mappa
-        function applicaTrasformazioni() {
-            mapWrapper.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        // CAMBIO FILTRO AD ALBERO
+        function cambiaFiltro(nuovoFiltro) {
+            filtroCorrente = nuovoFiltro;
+            // Aggiorna la classe 'attivo' sui pulsanti grafici
+            document.querySelectorAll('.filtro-btn').forEach(btn => {
+                if(btn.textContent.includes(nuovoFiltro) || (nuovoFiltro === 'Tutti' && btn.textContent === 'Tutti')) {
+                    btn.classList.add('attivo');
+                } else {
+                    btn.classList.remove('attivo');
+                }
+            });
+            renderizzaTutto();
         }
 
-        // === LOGICA DI TRASCINAMENTO (PAN) ===
-        mappaContainer.addEventListener('mousedown', (e) => {
-            // Si attiva il trascinamento solo se non si clicca su un marker o pulsante
-            if (e.target.classList.contains('marker') || e.target.classList.contains('zoom-btn')) return;
-            isDragging = true;
-            startX = e.clientX - translateX;
-            startY = e.clientY - translateY;
+        // DISEGNO INTERFACCIA CON FILTRAGGIO
+        function renderizzaTutto() {
+            document.querySelectorAll('.marker').forEach(e => e.remove());
+            listaContainer.innerHTML = '';
+
+            databaseOggetti.forEach(oggetto => {
+                // Se l'oggetto non appartiene alla categoria selezionata, lo saltiamo (ma lo mostriamo se il filtro è 'Tutti')
+                if (filtroCorrente !== 'Tutti' && oggetto.categoria !== filtroCorrente) return;
+
+                const isPreso = progressiSalvati[oggetto.id] === true;
+
+                // Calcolo classe specifica per colore marker
+                let classeCategoria = '';
+                if(oggetto.categoria === "Oggetto Nascosto") classeCategoria = 'nascosto';
+                if(oggetto.categoria === "Macchina Tecnica") classeCategoria = 'macchina';
+
+                // Crea marker
+                const marker = document.createElement('div');
+                marker.className = `marker ${classeCategoria} ${isPreso ? 'preso' : ''}`;
+                marker.style.left = `${oggetto.x}px`;
+                marker.style.top = `${oggetto.y}px`;
+                marker.innerHTML = oggetto.emoji;
+                marker.title = oggetto.nome;
+                
+                // Crea riga lista
+                const riga = document.createElement('div');
+                riga.className = `oggetto-row ${isPreso ? 'preso' : ''}`;
+                riga.innerHTML = `
+                    <div class="checkbox"></div>
+                    <div class="icona-oggetto">${oggetto.emoji}</div>
+                    <div class="info-oggetto">
+                        <div class="nome-oggetto">${oggetto.nome}</div>
+                        <div class="categoria-oggetto">${oggetto.categoria}</div>
+                    </div>
+                `;
+
+                const toggleStato = () => {
+                    progressiSalvati[oggetto.id] = !progressiSalvati[oggetto.id];
+                    localStorage.setItem('trackerKantoProgressi', JSON.stringify(progressiSalvati));
+                    renderizzaTutto();
+                };
+
+                marker.addEventListener('click', toggleStato);
+                riga.addEventListener('click', toggleStato);
+
+                mapWrapper.appendChild(marker);
+                listaContainer.appendChild(riga);
+            });
+        }
+
+        document.getElementById('btn-reset').addEventListener('click', () => {
+            if(confirm("Azzerare i progressi?")) {
+                progressiSalvati = {}; localStorage.removeItem('trackerKantoProgressi'); renderizzaTutto();
+            }
         });
 
-        window.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            translateX = e.clientX - startX;
-            translateY = e.clientY - startY;
-            applicaTrasformazioni();
-        });
-
-        window.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
-
-        // === LOGICA DI ZOOM (PULSANTI E ROTELLA) ===
-        function eseguiZoom(zoomIn,clientX, clientY) {
-            const zoomFactor = 0.15
+        renderizzaTutto();
+    </script>
+</body>
+</html>
