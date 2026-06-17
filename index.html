@@ -556,9 +556,9 @@ const LOC = {
   "Mt. Moon":[0.40,0.18],"Power Plant":[0.90,0.22],"Seafoam":[0.34,0.95],
   "Safari":[0.82,0.55],
   // off the Kanto map: Sevii Islands + event islands, clustered in the empty area
-  "One Island":[0.44,0.47],"Two Island":[0.44,0.51],"Three Island":[0.44,0.55],
-  "Four Island":[0.44,0.59],"Five Island":[0.44,0.63],"Six Island":[0.44,0.67],
-  "Seven Island":[0.44,0.71],"Navel Rock":[0.54,0.71],"Birth Island":[0.54,0.75]
+  "One Island":[0.045,1.9197],"Two Island":[0.1295,1.8646],"Three Island":[0.254,1.853],
+  "Four Island":[0.3785,1.8563],"Five Island":[0.488,1.8758],"Six Island":[0.59,1.8885],
+  "Seven Island":[0.692,1.8944],"Navel Rock":[0.54,0.71],"Birth Island":[0.54,0.75]
 };
 // match an entry's location text to a LOC key
 function locKeyFor(text){
@@ -652,16 +652,34 @@ const INTERIORS=[
  {id:"ss2", img:"S_S_ANNA_2F.png", label:"S.S. Anne 2F", x:0.356, y:1.3561, w:0.085, ar:0.5},
  {id:"ss1", img:"S_S_ANNA_1F.png", label:"S.S. Anne 1F", x:0.356, y:1.4054, w:0.085, ar:0.677},
  {id:"ssb1", img:"S_S_ANNA_B1F.png", label:"S.S. Anne B1F", x:0.356, y:1.4701, w:0.085, ar:0.326},
- {id:"ssdock", img:"S_S_ANNA_DOCK.png", label:"S.S. Anne — Molo", x:0.463, y:1.2478, w:0.07, ar:0.271, from:[0.545,0.8]},
- {id:"sskit", img:"S_S_ANNA_KITCHEN_1F.png", label:"S.S. Anne — Cucina", x:0.463, y:1.2732, w:0.07, ar:0.938},
- {id:"sscap", img:"S_S_ANNA_CAPTAINS_ROOM_1F.png", label:"S.S. Anne — Capitano", x:0.463, y:1.3461, w:0.07, ar:1.188},
- {id:"pt7", img:"POKEMON_TOWER_7F.png", label:"Torre Pokémon 7F", x:0.555, y:1.2478, w:0.06, ar:0.947, from:[0.915,0.36]},
- {id:"pt6", img:"POKEMON_TOWER_6F.png", label:"Torre Pokémon 6F", x:0.555, y:1.3118, w:0.06, ar:0.947},
- {id:"pt5", img:"POKEMON_TOWER_5F.png", label:"Torre Pokémon 5F", x:0.555, y:1.3757, w:0.06, ar:0.947},
- {id:"pt4", img:"POKEMON_TOWER_4F.png", label:"Torre Pokémon 4F", x:0.555, y:1.4397, w:0.06, ar:0.947},
- {id:"pt3", img:"POKEMON_TOWER_3F.png", label:"Torre Pokémon 3F", x:0.555, y:1.5036, w:0.06, ar:0.947},
- {id:"pt2", img:"POKEMON_TOWER_2F.png", label:"Torre Pokémon 2F", x:0.555, y:1.5676, w:0.06, ar:0.947},
- {id:"pt1", img:"POKEMON_TOWER_1F.png", label:"Torre Pokémon 1F", x:0.555, y:1.6316, w:0.06, ar:1.026},
+ {id:"sscap", img:"S_S_ANNA_CAPTAINS_ROOM_1F.png", label:"S.S. Anne — Capitano", x:0.356, y:1.5044, w:0.085, ar:1.188},
+ {id:"sskit", img:"S_S_ANNA_KITCHEN_1F.png", label:"S.S. Anne — Cucina", x:0.356, y:1.6134, w:0.085, ar:0.938},
+ {id:"ssdock", img:"S_S_ANNA_DOCK.png", label:"S.S. Anne — Molo", x:0.356, y:1.7007, w:0.085, ar:0.271},
+ {id:"si11", img:"SILPH_CO_11F.png", label:"Silph Co. 11F", x:0.463, y:1.2478, w:0.06, ar:1.128, from:[0.78,0.35]},
+ {id:"si10", img:"SILPH_CO_10F.png", label:"Silph Co. 10F", x:0.463, y:1.3229, w:0.06, ar:1.053},
+ {id:"si9", img:"SILPH_CO_09F.png", label:"Silph Co. 9F", x:0.463, y:1.3933, w:0.06, ar:0.606},
+ {id:"si8", img:"SILPH_CO_08F.png", label:"Silph Co. 8F", x:0.463, y:1.4364, w:0.06, ar:0.606},
+ {id:"si7", img:"SILPH_CO_07F.png", label:"Silph Co. 7F", x:0.463, y:1.4795, w:0.06, ar:0.606},
+ {id:"si6", img:"SILPH_CO_06F.png", label:"Silph Co. 6F", x:0.463, y:1.5226, w:0.06, ar:0.606},
+ {id:"si5", img:"SILPH_CO_05F.png", label:"Silph Co. 5F", x:0.463, y:1.5656, w:0.06, ar:0.605},
+ {id:"si4", img:"SILPH_CO_04F.png", label:"Silph Co. 4F", x:0.463, y:1.6087, w:0.06, ar:0.605},
+ {id:"si3", img:"SILPH_CO_03F.png", label:"Silph Co. 3F", x:0.463, y:1.6517, w:0.06, ar:0.605},
+ {id:"si2", img:"SILPH_CO_02F.png", label:"Silph Co. 2F", x:0.463, y:1.6947, w:0.06, ar:0.605},
+ {id:"si1", img:"SILPH_CO_01F.png", label:"Silph Co. 1F", x:0.463, y:1.7378, w:0.06, ar:0.605},
+ {id:"pt7", img:"POKEMON_TOWER_7F.png", label:"Torre Pokémon 7F", x:0.545, y:1.2478, w:0.06, ar:0.947, from:[0.915,0.36]},
+ {id:"pt6", img:"POKEMON_TOWER_6F.png", label:"Torre Pokémon 6F", x:0.545, y:1.3118, w:0.06, ar:0.947},
+ {id:"pt5", img:"POKEMON_TOWER_5F.png", label:"Torre Pokémon 5F", x:0.545, y:1.3757, w:0.06, ar:0.947},
+ {id:"pt4", img:"POKEMON_TOWER_4F.png", label:"Torre Pokémon 4F", x:0.545, y:1.4397, w:0.06, ar:0.947},
+ {id:"pt3", img:"POKEMON_TOWER_3F.png", label:"Torre Pokémon 3F", x:0.545, y:1.5036, w:0.06, ar:0.947},
+ {id:"pt2", img:"POKEMON_TOWER_2F.png", label:"Torre Pokémon 2F", x:0.545, y:1.5676, w:0.06, ar:0.947},
+ {id:"pt1", img:"POKEMON_TOWER_1F.png", label:"Torre Pokémon 1F", x:0.545, y:1.6316, w:0.06, ar:1.026},
+ {id:"sev1", img:"SEVII_ISLAND_ONE.png", label:"One Island", x:0.02, y:1.8248, w:0.05, ar:3.724},
+ {id:"sev2", img:"SEVII_ISLAND_TWO.png", label:"Two Island", x:0.092, y:1.8248, w:0.075, ar:1.042},
+ {id:"sev3", img:"SEVII_ISLAND_THREE.png", label:"Three Island", x:0.189, y:1.8248, w:0.13, ar:0.426},
+ {id:"sev4", img:"SEVII_ISLAND_FOUR.png", label:"Four Island", x:0.341, y:1.8248, w:0.075, ar:0.823},
+ {id:"sev5", img:"SEVII_ISLAND_FIVE.png", label:"Five Island", x:0.438, y:1.8248, w:0.1, ar:1.0},
+ {id:"sev6", img:"SEVII_ISLAND_SIX.png", label:"Six Island", x:0.56, y:1.8248, w:0.06, ar:2.083},
+ {id:"sev7", img:"SEVII_ISLAND_SEVEN.png", label:"Seven Island", x:0.642, y:1.8248, w:0.1, ar:1.366},
 ];
 const SVGNS="http://www.w3.org/2000/svg";
 function renderInteriors(){
@@ -842,8 +860,8 @@ function initMap(){
   function pickAt(clientX,clientY){
     const r=vp.getBoundingClientRect();
     const vx=clientX-r.left, vy=clientY-r.top;
-    const nx=Math.min(1,Math.max(0,(vx-panX)/(imgW*zoom)));
-    const ny=Math.min(1,Math.max(0,(vy-panY)/(imgH*zoom)));
+    const nx=Math.min(1.2,Math.max(-0.05,(vx-panX)/(imgW*zoom)));
+    const ny=Math.min(2.2,Math.max(-0.05,(vy-panY)/(imgH*zoom)));
     lastPos=`"pos": [${nx.toFixed(4)}, ${ny.toFixed(4)}]`;
     // visual crosshair at the picked tile
     const pm=document.getElementById("pickMarker");
@@ -911,7 +929,7 @@ function initMap(){
     const r=vp.getBoundingClientRect();
     const nx=(e.clientX-r.left-panX)/(imgW*zoom);
     const ny=(e.clientY-r.top-panY)/(imgH*zoom);
-    if(nx<0||nx>1.5||ny<0||ny>1.6){ liveCoord.hidden=true; return; }  // allow gallery area below the map
+    if(nx<-0.05||nx>1.5||ny<-0.05||ny>2.2){ liveCoord.hidden=true; return; }  // map + gallery below
     liveCoord.hidden=false;
     liveCoord.innerHTML=`<b>x</b> ${nx.toFixed(4)}  ·  <b>y</b> ${ny.toFixed(4)}`;
   });
