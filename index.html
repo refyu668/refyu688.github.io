@@ -585,9 +585,16 @@ const catColors = {pokemon:"#3fb0c9",pokemonForm:"#3fb0c9",item:"#e0883a",itemIn
 let catOn = {}; // category id -> bool
 
 let zoom=1, panX=0, panY=0, mapReady=false, imgW=0, imgH=0;
+let _canvasEl=null, _rafPending=false;
 function applyTransform(){
-  document.getElementById("canvas").style.transform=`translate(${panX}px,${panY}px) scale(${zoom})`;
+  if(!_canvasEl) _canvasEl=document.getElementById("canvas");
+  _canvasEl.style.transform=`translate3d(${panX}px,${panY}px,0) scale(${zoom})`;
   positionMarkers();
+}
+function scheduleTransform(){
+  if(_rafPending) return;
+  _rafPending=true;
+  requestAnimationFrame(()=>{ _rafPending=false; applyTransform(); });
 }
 
 function buildToggles(){
@@ -615,46 +622,46 @@ const MAX_ICONS=8;
 // x,y = normalized top-left on the Kanto canvas; w = normalized width; ar = height/width of the image.
 // from = [nx,ny] overworld entrance point, or the id of another interior (to chain floors).
 const INTERIORS=[
- {id:"vf",   img:"VERIDIAN_FOREST.png",   label:"Foresta Smeraldo",  x:0.470,y:0.430,w:0.085,ar:1.2778, from:[0.17,0.33]},
- {id:"cc1",  img:"CERULEAN_CAVE_1F.png",  label:"Grotta Celeste 1F", x:0.470,y:0.550,w:0.085,ar:0.575,  from:[0.65,0.105]},
- {id:"cc2",  img:"CERULEAN_CAVE_2F.png",  label:"Grotta Celeste 2F", x:0.470,y:0.610,w:0.080,ar:0.6324, from:"cc1"},
- {id:"ccb1", img:"CERULEAN_CAVE_B1F.png", label:"Grotta Celeste B1F",x:0.470,y:0.668,w:0.085,ar:0.575,  from:"cc2"},
- {id:"mm1",  img:"MT_MOON_F1.png", label:"Monte Luna 1F",  x:0.565,y:0.430,w:0.085,ar:0.8229, from:[0.40,0.18]},
- {id:"mmb1", img:"MT_MOON_B1F.png", label:"Monte Luna B1F", x:0.565,y:0.515,w:0.085,ar:0.4294, from:"mm1"},
- {id:"mmb2", img:"MT_MOON_B2F.png", label:"Monte Luna B2F", x:0.565,y:0.565,w:0.085,ar:0.8333, from:"mmb1"},
- {id:"cg", img:"CELADON_CITY_GYM.png", label:"Palestra Celadon", x:0.045, y:1.045, w:0.06, ar:1.481, from:[0.49,0.35]},
- {id:"ceg", img:"CERULEAN_CITY_GYM.png", label:"Palestra Cerulean", x:0.123, y:1.045, w:0.065, ar:1.203, from:[0.68,0.13]},
- {id:"fg", img:"FUCHSIA_CITY_GYM.png", label:"Palestra Fuchsia", x:0.206, y:1.045, w:0.06, ar:1.483, from:[0.7,0.52]},
- {id:"cig", img:"CINNABAR_ISLAND_GYM.png", label:"Palestra Cinnabar", x:0.284, y:1.045, w:0.09, ar:0.808, from:[0.18,0.96]},
- {id:"pp", img:"POWER_PLANT.png", label:"Centrale Energetica", x:0.392, y:1.045, w:0.11, ar:0.812, from:[0.9,0.22]},
- {id:"pt1", img:"POKEMON_TOWER_1F.png", label:"Torre Pokémon 1F", x:0.52, y:1.045, w:0.055, ar:1.026, from:[0.915,0.36]},
- {id:"pt2", img:"POKEMON_TOWER_2F.png", label:"Torre Pokémon 2F", x:0.593, y:1.045, w:0.055, ar:0.947, from:"pt1"},
- {id:"pt3", img:"POKEMON_TOWER_3F.png", label:"Torre Pokémon 3F", x:0.666, y:1.045, w:0.055, ar:0.947, from:"pt2"},
- {id:"pt4", img:"POKEMON_TOWER_4F.png", label:"Torre Pokémon 4F", x:0.739, y:1.045, w:0.055, ar:0.947, from:"pt3"},
- {id:"pt5", img:"POKEMON_TOWER_5F.png", label:"Torre Pokémon 5F", x:0.812, y:1.045, w:0.055, ar:0.947, from:"pt4"},
- {id:"pt6", img:"POKEMON_TOWER_6F.png", label:"Torre Pokémon 6F", x:0.885, y:1.045, w:0.055, ar:0.947, from:"pt5"},
- {id:"pt7", img:"POKEMON_TOWER_7F.png", label:"Torre Pokémon 7F", x:0.045, y:1.1541, w:0.055, ar:0.947, from:"pt6"},
- {id:"pm1", img:"POKEMON_MANSION_1F.png", label:"Villa Pokémon 1F", x:0.118, y:1.1541, w:0.095, ar:0.921, from:[0.18,0.96]},
- {id:"pm2", img:"POKEMON_MANSION_F2.png", label:"Villa Pokémon 2F", x:0.231, y:1.1541, w:0.095, ar:1.026, from:"pm1"},
- {id:"pm3", img:"POKEMON_MANSION_3F.png", label:"Villa Pokémon 3F", x:0.344, y:1.1541, w:0.095, ar:0.684, from:"pm2"},
- {id:"pmb1", img:"POKEMON_MANSION_1BF.png", label:"Villa Pokémon B1F", x:0.457, y:1.1541, w:0.095, ar:0.947, from:"pm3"},
- {id:"dgp", img:"DIGLETT_CAVE_1F_PEWTER_CITY.png", label:"Diglett's Cave (Pewter)", x:0.57, y:1.1541, w:0.06, ar:0.667, from:[0.17,0.16]},
- {id:"dgb", img:"DIGLETT_CAVE_1BF.png", label:"Diglett's Cave B1F", x:0.648, y:1.1541, w:0.15, ar:0.929, from:"dgp"},
- {id:"dgv", img:"DIGLETT_CAVE_1F_VERMILION_CITY.png", label:"Diglett's Cave (Vermilion)", x:0.816, y:1.1541, w:0.06, ar:0.667, from:"dgb"},
- {id:"rt1", img:"ROCK_TUNNEL_F1.png", label:"Rock Tunnel 1F", x:0.045, y:1.32, w:0.085, ar:0.823, from:[0.86,0.26]},
- {id:"rtb1", img:"ROCK_TUNNEL_BF1.png", label:"Rock Tunnel B1F", x:0.148, y:1.32, w:0.085, ar:0.823, from:"rt1"},
- {id:"rh1", img:"ROCKET_HIDEOUT_1BF.png", label:"Nascond. Rocket B1F", x:0.251, y:1.32, w:0.06, ar:1.241, from:[0.49,0.35]},
- {id:"rhb2", img:"ROCKET_HIDEOUT_BF2.png", label:"Nascond. Rocket B2F", x:0.329, y:1.32, w:0.075, ar:0.723, from:"rh1"},
- {id:"rhb3", img:"ROCKET_HIDEOUT_BF3.png", label:"Nascond. Rocket B3F", x:0.422, y:1.32, w:0.055, ar:1.273, from:"rhb2"},
- {id:"rhb4", img:"ROCKET_HIDEOUT_BF4.png", label:"Nascond. Rocket B4F", x:0.495, y:1.32, w:0.06, ar:1.125, from:"rhb3"},
- {id:"ssdock", img:"S_S_ANNA_DOCK.png", label:"S.S. Anne — Molo", x:0.573, y:1.32, w:0.14, ar:0.271, from:[0.545,0.8]},
- {id:"ss1", img:"S_S_ANNA_1F.png", label:"S.S. Anne 1F", x:0.731, y:1.32, w:0.08, ar:0.677, from:"ssdock"},
- {id:"ss2", img:"S_S_ANNA_2F.png", label:"S.S. Anne 2F", x:0.829, y:1.32, w:0.085, ar:0.5, from:"ss1"},
- {id:"ss3", img:"S_S_ANNA_3F.png", label:"S.S. Anne 3F", x:0.045, y:1.4139, w:0.07, ar:0.455, from:"ss2"},
- {id:"ssb1", img:"S_S_ANNA_B1F.png", label:"S.S. Anne B1F", x:0.133, y:1.4139, w:0.075, ar:0.326, from:"ss1"},
- {id:"sskit", img:"S_S_ANNA_KITCHEN_1F.png", label:"S.S. Anne — Cucina", x:0.226, y:1.4139, w:0.05, ar:0.938, from:"ss1"},
- {id:"sscap", img:"S_S_ANNA_CAPTAINS_ROOM_1F.png", label:"S.S. Anne — Capitano", x:0.294, y:1.4139, w:0.045, ar:1.188, from:"ss1"},
- {id:"ssdeck", img:"S_S_ANNA_DECK.png", label:"S.S. Anne — Ponte", x:0.357, y:1.4139, w:0.07, ar:0.655, from:"ss1"},
+ {id:"cg", img:"CELADON_CITY_GYM.png", label:"Palestra Celadon", x:0.02, y:1.025, w:0.07, ar:1.481, from:[0.49,0.35]},
+ {id:"ceg", img:"CERULEAN_CITY_GYM.png", label:"Palestra Cerulean", x:0.112, y:1.025, w:0.07, ar:1.203, from:[0.68,0.13]},
+ {id:"fg", img:"FUCHSIA_CITY_GYM.png", label:"Palestra Fuchsia", x:0.204, y:1.025, w:0.07, ar:1.483, from:[0.7,0.52]},
+ {id:"cig", img:"CINNABAR_ISLAND_GYM.png", label:"Palestra Cinnabar", x:0.296, y:1.025, w:0.08, ar:0.808, from:[0.18,0.96]},
+ {id:"vf", img:"VERIDIAN_FOREST.png", label:"Foresta Smeraldo", x:0.398, y:1.025, w:0.09, ar:1.2778, from:[0.17,0.33]},
+ {id:"pp", img:"POWER_PLANT.png", label:"Centrale Energetica", x:0.51, y:1.025, w:0.1, ar:0.812, from:[0.9,0.22]},
+ {id:"mm1", img:"MT_MOON_F1.png", label:"Monte Luna 1F", x:0.632, y:1.025, w:0.085, ar:0.8229, from:[0.4,0.18]},
+ {id:"mmb1", img:"MT_MOON_B1F.png", label:"Monte Luna B1F", x:0.632, y:1.1023, w:0.085, ar:0.4294},
+ {id:"mmb2", img:"MT_MOON_B2F.png", label:"Monte Luna B2F", x:0.632, y:1.1456, w:0.085, ar:0.8333},
+ {id:"cc2", img:"CERULEAN_CAVE_2F.png", label:"Grotta Celeste 2F", x:0.739, y:1.025, w:0.085, ar:0.6324, from:[0.65,0.105]},
+ {id:"cc1", img:"CERULEAN_CAVE_1F.png", label:"Grotta Celeste 1F", x:0.739, y:1.0858, w:0.085, ar:0.575},
+ {id:"ccb1", img:"CERULEAN_CAVE_B1F.png", label:"Grotta Celeste B1F", x:0.739, y:1.1417, w:0.085, ar:0.575},
+ {id:"rt1", img:"ROCK_TUNNEL_F1.png", label:"Rock Tunnel 1F", x:0.846, y:1.025, w:0.085, ar:0.823, from:[0.86,0.26]},
+ {id:"rtb1", img:"ROCK_TUNNEL_BF1.png", label:"Rock Tunnel B1F", x:0.846, y:1.1024, w:0.085, ar:0.823},
+ {id:"dgp", img:"DIGLETT_CAVE_1F_PEWTER_CITY.png", label:"Diglett (Pewter)", x:0.02, y:1.2478, w:0.11, ar:0.667, from:[0.17,0.16]},
+ {id:"dgb", img:"DIGLETT_CAVE_1BF.png", label:"Diglett B1F", x:0.02, y:1.3287, w:0.11, ar:0.929},
+ {id:"dgv", img:"DIGLETT_CAVE_1F_VERMILION_CITY.png", label:"Diglett (Vermilion)", x:0.02, y:1.4389, w:0.11, ar:0.667},
+ {id:"rh1", img:"ROCKET_HIDEOUT_1BF.png", label:"Nascond. Rocket B1F", x:0.152, y:1.2478, w:0.07, ar:1.241, from:[0.49,0.35]},
+ {id:"rhb2", img:"ROCKET_HIDEOUT_BF2.png", label:"Nascond. Rocket B2F", x:0.152, y:1.3424, w:0.07, ar:0.723},
+ {id:"rhb3", img:"ROCKET_HIDEOUT_BF3.png", label:"Nascond. Rocket B3F", x:0.152, y:1.4001, w:0.07, ar:1.273},
+ {id:"rhb4", img:"ROCKET_HIDEOUT_BF4.png", label:"Nascond. Rocket B4F", x:0.152, y:1.4969, w:0.07, ar:1.125},
+ {id:"pm3", img:"POKEMON_MANSION_3F.png", label:"Villa Pokémon 3F", x:0.244, y:1.2478, w:0.09, ar:0.684, from:[0.18,0.96]},
+ {id:"pm2", img:"POKEMON_MANSION_F2.png", label:"Villa Pokémon 2F", x:0.244, y:1.3166, w:0.09, ar:1.026},
+ {id:"pm1", img:"POKEMON_MANSION_1F.png", label:"Villa Pokémon 1F", x:0.244, y:1.4168, w:0.09, ar:0.921},
+ {id:"pmb1", img:"POKEMON_MANSION_1BF.png", label:"Villa Pokémon B1F", x:0.244, y:1.5073, w:0.09, ar:0.947},
+ {id:"ssdeck", img:"S_S_ANNA_DECK.png", label:"S.S. Anne — Ponte", x:0.356, y:1.2478, w:0.085, ar:0.655, from:[0.545,0.8]},
+ {id:"ss3", img:"S_S_ANNA_3F.png", label:"S.S. Anne 3F", x:0.356, y:1.3106, w:0.085, ar:0.455},
+ {id:"ss2", img:"S_S_ANNA_2F.png", label:"S.S. Anne 2F", x:0.356, y:1.3561, w:0.085, ar:0.5},
+ {id:"ss1", img:"S_S_ANNA_1F.png", label:"S.S. Anne 1F", x:0.356, y:1.4054, w:0.085, ar:0.677},
+ {id:"ssb1", img:"S_S_ANNA_B1F.png", label:"S.S. Anne B1F", x:0.356, y:1.4701, w:0.085, ar:0.326},
+ {id:"ssdock", img:"S_S_ANNA_DOCK.png", label:"S.S. Anne — Molo", x:0.463, y:1.2478, w:0.07, ar:0.271, from:[0.545,0.8]},
+ {id:"sskit", img:"S_S_ANNA_KITCHEN_1F.png", label:"S.S. Anne — Cucina", x:0.463, y:1.2732, w:0.07, ar:0.938},
+ {id:"sscap", img:"S_S_ANNA_CAPTAINS_ROOM_1F.png", label:"S.S. Anne — Capitano", x:0.463, y:1.3461, w:0.07, ar:1.188},
+ {id:"pt7", img:"POKEMON_TOWER_7F.png", label:"Torre Pokémon 7F", x:0.555, y:1.2478, w:0.06, ar:0.947, from:[0.915,0.36]},
+ {id:"pt6", img:"POKEMON_TOWER_6F.png", label:"Torre Pokémon 6F", x:0.555, y:1.3118, w:0.06, ar:0.947},
+ {id:"pt5", img:"POKEMON_TOWER_5F.png", label:"Torre Pokémon 5F", x:0.555, y:1.3757, w:0.06, ar:0.947},
+ {id:"pt4", img:"POKEMON_TOWER_4F.png", label:"Torre Pokémon 4F", x:0.555, y:1.4397, w:0.06, ar:0.947},
+ {id:"pt3", img:"POKEMON_TOWER_3F.png", label:"Torre Pokémon 3F", x:0.555, y:1.5036, w:0.06, ar:0.947},
+ {id:"pt2", img:"POKEMON_TOWER_2F.png", label:"Torre Pokémon 2F", x:0.555, y:1.5676, w:0.06, ar:0.947},
+ {id:"pt1", img:"POKEMON_TOWER_1F.png", label:"Torre Pokémon 1F", x:0.555, y:1.6316, w:0.06, ar:1.026},
 ];
 const SVGNS="http://www.w3.org/2000/svg";
 function renderInteriors(){
@@ -846,20 +853,60 @@ function initMap(){
     if(navigator.clipboard) navigator.clipboard.writeText(lastPos).catch(()=>{});
   }
 
-  // drag to pan; a clean click (no real movement) triggers the picker
-  let drag=false,sx=0,sy=0,ox=0,oy=0,moved=false,captured=false;
-  vp.addEventListener("pointerdown",e=>{ if(e.target.closest("button,.pin"))return; drag=true; moved=false; captured=false; sx=e.clientX; sy=e.clientY; ox=panX; oy=panY; });
-  vp.addEventListener("pointermove",e=>{ if(!drag)return;
-    if(!moved && Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>4){ moved=true; vp.classList.add("grabbing"); try{vp.setPointerCapture(e.pointerId);captured=true;}catch(_){} }
-    if(moved){ panX=ox+(e.clientX-sx); panY=oy+(e.clientY-sy); applyTransform(); } });
-  vp.addEventListener("pointerup",e=>{ if(!drag)return; drag=false; vp.classList.remove("grabbing");
-    if(captured){ try{vp.releasePointerCapture(e.pointerId);}catch(_){} captured=false; }
-    if(pickMode && !moved && mapReady) pickAt(e.clientX,e.clientY); });
-  vp.addEventListener("pointercancel",()=>{ drag=false; moved=false; vp.classList.remove("grabbing"); });
+  // unified pointer interaction: 1 pointer = pan, 2 pointers = pinch-zoom
+  const pointers=new Map();
+  let panStart=null, moved=false, pinch=null;
+  const clampZoom=z=>Math.max(0.05,Math.min(8,z));
+  vp.addEventListener("pointerdown",e=>{
+    if(e.target.closest("button,.pin")) return;
+    vp.setPointerCapture(e.pointerId);
+    pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pointers.size===1){ panStart={sx:e.clientX,sy:e.clientY,ox:panX,oy:panY}; moved=false; }
+    else if(pointers.size===2){
+      const p=[...pointers.values()];
+      const dx=p[0].x-p[1].x, dy=p[0].y-p[1].y;
+      const r=vp.getBoundingClientRect();
+      pinch={dist:Math.hypot(dx,dy), zoom0:zoom,
+             mx:(p[0].x+p[1].x)/2-r.left, my:(p[0].y+p[1].y)/2-r.top, ox:panX, oy:panY};
+      panStart=null;
+    }
+  });
+  vp.addEventListener("pointermove",e=>{
+    if(!pointers.has(e.pointerId)) return;
+    pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pinch && pointers.size>=2){
+      const p=[...pointers.values()];
+      const dist=Math.hypot(p[0].x-p[1].x, p[0].y-p[1].y);
+      const nz=clampZoom(pinch.zoom0 * dist/pinch.dist);
+      // keep the pinch midpoint anchored
+      panX=pinch.mx-(pinch.mx-pinch.ox)*(nz/pinch.zoom0);
+      panY=pinch.my-(pinch.my-pinch.oy)*(nz/pinch.zoom0);
+      zoom=nz; scheduleTransform();
+    } else if(panStart){
+      if(!moved && Math.abs(e.clientX-panStart.sx)+Math.abs(e.clientY-panStart.sy)>4){ moved=true; vp.classList.add("grabbing"); }
+      if(moved){ panX=panStart.ox+(e.clientX-panStart.sx); panY=panStart.oy+(e.clientY-panStart.sy); scheduleTransform(); }
+    }
+  });
+  function endPointer(e){
+    if(!pointers.has(e.pointerId)) return;
+    const wasClick = panStart && !moved && pointers.size===1;
+    pointers.delete(e.pointerId);
+    try{ vp.releasePointerCapture(e.pointerId); }catch(_){}
+    if(pointers.size<2) pinch=null;
+    if(pointers.size===1){ const p=[...pointers.values()][0]; panStart={sx:p.x,sy:p.y,ox:panX,oy:panY}; moved=false; }
+    else if(pointers.size===0){
+      vp.classList.remove("grabbing");
+      if(wasClick && pickMode && mapReady) pickAt(e.clientX,e.clientY);
+      panStart=null;
+    }
+  }
+  vp.addEventListener("pointerup",endPointer);
+  vp.addEventListener("pointercancel",endPointer);
 
   // live coordinate readout: always shows x,y at the cursor while moving over the map
   const liveCoord=document.getElementById("liveCoord");
   vp.addEventListener("pointermove",e=>{
+    if(pointers.size>0){ liveCoord.hidden=true; return; }   // not during drag/pinch
     if(!mapReady||!imgW){ liveCoord.hidden=true; return; }
     const r=vp.getBoundingClientRect();
     const nx=(e.clientX-r.left-panX)/(imgW*zoom);
